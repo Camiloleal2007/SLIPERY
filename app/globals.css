@@ -85,6 +85,12 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  
+  /* Animaciones personalizadas para neblina roja */
+  --animate-pulse-slow: pulse-slow 8s ease-in-out infinite;
+  --animate-pulse-slower: pulse-slower 12s ease-in-out infinite;
+  --animate-float-slow: float-slow 20s ease-in-out infinite;
+  --animate-float: float 15s ease-in-out infinite;
 }
 
 @layer base {
@@ -96,3 +102,174 @@
   }
 }
 
+/* Definición de animaciones para la neblina roja */
+@keyframes pulse-slow {
+  0%, 100% { 
+    opacity: 0.2; 
+  }
+  50% { 
+    opacity: 0.4; 
+  }
+}
+
+@keyframes pulse-slower {
+  0%, 100% { 
+    opacity: 0.15; 
+    transform: scale(1); 
+  }
+  50% { 
+    opacity: 0.3; 
+    transform: scale(1.05); 
+  }
+}
+
+@keyframes float-slow {
+  0%, 100% { 
+    transform: translate(-50%, 0) scale(1); 
+  }
+  33% { 
+    transform: translate(-55%, -15px) scale(1.02); 
+  }
+  66% { 
+    transform: translate(-45%, 15px) scale(0.98); 
+  }
+}
+
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0) translateX(0) scale(1); 
+    opacity: 0.1; 
+  }
+  33% { 
+    transform: translateY(-20px) translateX(10px) scale(1.1); 
+    opacity: 0.15; 
+  }
+  66% { 
+    transform: translateY(10px) translateX(-10px) scale(0.9); 
+    opacity: 0.05; 
+  }
+}
+
+@keyframes shimmer {
+  0% { 
+    transform: translateX(-100%); 
+  }
+  100% { 
+    transform: translateX(100%); 
+  }
+}
+
+/* Clases utilitarias para la neblina */
+@layer utilities {
+  .animate-pulse-slow {
+    animation: pulse-slow 8s ease-in-out infinite;
+  }
+  
+  .animate-pulse-slower {
+    animation: pulse-slower 12s ease-in-out infinite;
+  }
+  
+  .animate-float-slow {
+    animation: float-slow 20s ease-in-out infinite;
+  }
+  
+  .animate-float {
+    animation: float 15s ease-in-out infinite;
+  }
+  
+  .animate-shimmer {
+    animation: shimmer 2s infinite;
+  }
+  
+  /* Mejorar legibilidad del texto sobre fondos con neblina */
+  .text-over-neblina {
+    text-shadow: 
+      0 1px 2px rgba(0, 0, 0, 0.8),
+      0 2px 4px rgba(0, 0, 0, 0.6);
+  }
+  
+  /* Asegurar que elementos interactivos sean accesibles */
+  .interactivo {
+    position: relative;
+    z-index: 20;
+  }
+  
+  /* Efectos de gradiente para neblina */
+  .neblina-superior {
+    background: linear-gradient(to bottom, 
+      rgba(185, 28, 28, 0.15) 0%,
+      rgba(185, 28, 28, 0.08) 25%,
+      rgba(185, 28, 28, 0.03) 50%,
+      transparent 100%
+    );
+  }
+  
+  .neblina-inferior {
+    background: linear-gradient(to top, 
+      rgba(153, 27, 27, 0.12) 0%,
+      rgba(153, 27, 27, 0.06) 25%,
+      rgba(153, 27, 27, 0.02) 50%,
+      transparent 100%
+    );
+  }
+  
+  /* Efecto de partículas rojas */
+  .particula-roja {
+    background: radial-gradient(
+      circle at center,
+      rgba(239, 68, 68, 0.3) 0%,
+      rgba(239, 68, 68, 0.15) 30%,
+      rgba(239, 68, 68, 0.05) 60%,
+      transparent 80%
+    );
+  }
+  
+  /* Efecto de borde luminoso rojo */
+  .borde-luminoso {
+    box-shadow: 
+      0 0 20px rgba(239, 68, 68, 0.2),
+      0 0 40px rgba(239, 68, 68, 0.1),
+      inset 0 0 20px rgba(239, 68, 68, 0.1);
+  }
+  
+  /* Asegurar que el contenido esté sobre la neblina */
+  .contenido-principal {
+    position: relative;
+    z-index: 10;
+  }
+}
+
+/* Ajustes para scroll suave y mejor UX */
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Mejorar contraste para accesibilidad */
+@media (prefers-contrast: high) {
+  :root {
+    --background: oklch(0.05 0 0);
+    --foreground: oklch(1 0 0);
+    --muted-foreground: oklch(0.8 0 0);
+  }
+}
+
+/* Ajustes para dispositivos móviles */
+@media (max-width: 768px) {
+  @keyframes float-slow {
+    0%, 100% { 
+      transform: translate(-50%, 0) scale(1); 
+    }
+    33% { 
+      transform: translate(-55%, -8px) scale(1.02); 
+    }
+    66% { 
+      transform: translate(-45%, 8px) scale(0.98); 
+    }
+  }
+}

@@ -8,7 +8,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/components/CartContext";
-
+import ModalCarrito from "@/components/modalcarrito";
 import {
   ChevronLeft,
   Minus,
@@ -100,7 +100,25 @@ export default function ProductPage({
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [showModal, setShowModal] = useState(false);
   const { addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    if (!selectedSize) return;
+
+    // Agregar al carrito
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      size: selectedSize,
+      quantity: quantity,
+      image: product.image,
+    });
+
+    // Mostrar el modal con animación
+    setShowModal(true);
+  };
 
   return (
     <main className="min-h-screen bg-background">
@@ -180,29 +198,24 @@ export default function ProductPage({
             </div>
 
             <div className="flex items-center mb-8">
-              <button onClick={() => setQuantity((q) => Math.max(1, q - 1))}>
+              <button 
+                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                className="p-2 hover:bg-secondary rounded-full transition-colors"
+              >
                 <Minus />
               </button>
-              <span className="mx-4">{quantity}</span>
-              <button onClick={() => setQuantity((q) => q + 1)}>
+              <span className="mx-4 text-lg font-semibold w-8 text-center">{quantity}</span>
+              <button 
+                onClick={() => setQuantity((q) => q + 1)}
+                className="p-2 hover:bg-secondary rounded-full transition-colors"
+              >
                 <Plus />
               </button>
             </div>
 
             <Button
               disabled={!selectedSize}
-              onClick={() => {
-                if (!selectedSize) return;
-
-                addToCart({
-                  id: product.id,
-                  name: product.name,
-                  price: product.price,
-                  size: selectedSize,
-                  quantity: quantity,
-                  image: product.image,
-                });
-              }}
+              onClick={handleAddToCart}
               className={`w-full h-16 text-lg font-bold tracking-widest uppercase transition-all duration-300
     ${
       selectedSize
@@ -213,9 +226,44 @@ export default function ProductPage({
             >
               {selectedSize ? "Agregar al carrito" : "Selecciona una talla"}
             </Button>
+
+            {/* Botón de favoritos (opcional) */}
+            <Button
+              variant="outline"
+              className="w-full h-12 mt-4 border-border hover:bg-secondary"
+            >
+              <Heart className="w-5 h-5 mr-2" />
+              Agregar a favoritos
+            </Button>
+
+            {/* Información adicional del producto */}
+            <div className="mt-8 pt-8 border-t border-border space-y-4">
+              <div className="flex items-center gap-3">
+                <Truck className="w-5 h-5 text-gold" />
+                <span className="text-sm">Envío gratis a toda España</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <RotateCcw className="w-5 h-5 text-gold" />
+                <span className="text-sm">Devoluciones gratuitas hasta 30 días</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Shield className="w-5 h-5 text-gold" />
+                <span className="text-sm">Pago 100% seguro</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Modal de confirmación de carrito */}
+      <ModalCarrito
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        productName={product.name}
+        productImage={product.image}
+        size={selectedSize || ""}
+        quantity={quantity}
+      />
 
       <section className="py-20 bg-card">
         <h2 className="text-center text-3xl font-bold mb-10">
