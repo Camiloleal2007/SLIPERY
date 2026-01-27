@@ -1,39 +1,29 @@
-"use client"
+"use client";
 
-import React from "react"
+import React from "react";
 
-import { useState } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { ChevronLeft, CreditCard, Truck, Shield, Lock, Trash2 } from "lucide-react"
-import { FoxLogo } from "@/components/fox-logo"
-
-const cartItems = [
-  {
-    id: "hoodie-oversized-black",
-    name: "Hoodie Oversized",
-    price: 89.99,
-    image: "/images/product-hoodie.jpg",
-    size: "L",
-    quantity: 1,
-  },
-  {
-    id: "cargo-pants-urban",
-    name: "Cargo Urban",
-    price: 79.99,
-    image: "/images/product-pants.jpg",
-    size: "M",
-    quantity: 1,
-  },
-]
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  ChevronLeft,
+  CreditCard,
+  Truck,
+  Shield,
+  Lock,
+  Trash2,
+} from "lucide-react";
+import { FoxLogo } from "@/components/fox-logo";
+import { useCart } from "@/components/CartContext";
 
 export default function CheckoutPage() {
-  const [step, setStep] = useState<"info" | "payment" | "confirm">("info")
+  const [step, setStep] = useState<"info" | "payment" | "confirm">("info");
+  const { cart: cartItems } = useCart();
   const [formData, setFormData] = useState({
     email: "",
     firstName: "",
@@ -46,24 +36,28 @@ export default function CheckoutPage() {
     cardExpiry: "",
     cardCvc: "",
     cardName: "",
-  })
+  });
 
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
-  const shipping = 0 // Free shipping
-  const total = subtotal + shipping
+  const subtotal = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0,
+  );
+
+  const shipping = 0; // Free shipping
+  const total = subtotal + shipping;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     if (step === "info") {
-      setStep("payment")
+      setStep("payment");
     } else if (step === "payment") {
-      setStep("confirm")
+      setStep("confirm");
     }
-  }
+  };
 
   return (
     <main className="min-h-screen bg-background">
@@ -94,15 +88,23 @@ export default function CheckoutPage() {
                 PEDIDO CONFIRMADO
               </h1>
               <p className="text-muted-foreground">
-                Gracias por tu compra. Te hemos enviado un email de confirmacion a {formData.email || "tu correo"}.
+                Gracias por tu compra. Te hemos enviado un email de confirmacion
+                a {formData.email || "tu correo"}.
               </p>
             </div>
             <div className="bg-card border border-border p-6 mb-8 text-left">
-              <p className="text-sm text-muted-foreground mb-2">Numero de pedido</p>
-              <p className="font-[family-name:var(--font-display)] text-xl font-bold text-gold mb-4">#SLP-2026-{Math.random().toString(36).substring(2, 8).toUpperCase()}</p>
+              <p className="text-sm text-muted-foreground mb-2">
+                Numero de pedido
+              </p>
+              <p className="font-[family-name:var(--font-display)] text-xl font-bold text-gold mb-4">
+                #SLP-2026-
+                {Math.random().toString(36).substring(2, 8).toUpperCase()}
+              </p>
               <div className="border-t border-border pt-4">
                 <p className="text-sm text-muted-foreground mb-2">Total</p>
-                <p className="text-2xl font-bold text-foreground">${total.toFixed(2)} EUR</p>
+                <p className="text-2xl font-bold text-foreground">
+                  ${total.toFixed(2)} EUR
+                </p>
               </div>
             </div>
             <Button
@@ -147,7 +149,10 @@ export default function CheckoutPage() {
                         </h2>
                         <div className="space-y-4">
                           <div>
-                            <Label htmlFor="email" className="text-sm tracking-widest uppercase text-muted-foreground">
+                            <Label
+                              htmlFor="email"
+                              className="text-sm tracking-widest uppercase text-muted-foreground"
+                            >
                               Email
                             </Label>
                             <Input
@@ -162,7 +167,10 @@ export default function CheckoutPage() {
                             />
                           </div>
                           <div>
-                            <Label htmlFor="phone" className="text-sm tracking-widest uppercase text-muted-foreground">
+                            <Label
+                              htmlFor="phone"
+                              className="text-sm tracking-widest uppercase text-muted-foreground"
+                            >
                               Telefono
                             </Label>
                             <Input
@@ -186,7 +194,10 @@ export default function CheckoutPage() {
                         <div className="space-y-4">
                           <div className="grid grid-cols-2 gap-4">
                             <div>
-                              <Label htmlFor="firstName" className="text-sm tracking-widest uppercase text-muted-foreground">
+                              <Label
+                                htmlFor="firstName"
+                                className="text-sm tracking-widest uppercase text-muted-foreground"
+                              >
                                 Nombre
                               </Label>
                               <Input
@@ -199,7 +210,10 @@ export default function CheckoutPage() {
                               />
                             </div>
                             <div>
-                              <Label htmlFor="lastName" className="text-sm tracking-widest uppercase text-muted-foreground">
+                              <Label
+                                htmlFor="lastName"
+                                className="text-sm tracking-widest uppercase text-muted-foreground"
+                              >
                                 Apellidos
                               </Label>
                               <Input
@@ -213,7 +227,10 @@ export default function CheckoutPage() {
                             </div>
                           </div>
                           <div>
-                            <Label htmlFor="address" className="text-sm tracking-widest uppercase text-muted-foreground">
+                            <Label
+                              htmlFor="address"
+                              className="text-sm tracking-widest uppercase text-muted-foreground"
+                            >
                               Direccion
                             </Label>
                             <Input
@@ -228,7 +245,10 @@ export default function CheckoutPage() {
                           </div>
                           <div className="grid grid-cols-2 gap-4">
                             <div>
-                              <Label htmlFor="city" className="text-sm tracking-widest uppercase text-muted-foreground">
+                              <Label
+                                htmlFor="city"
+                                className="text-sm tracking-widest uppercase text-muted-foreground"
+                              >
                                 Ciudad
                               </Label>
                               <Input
@@ -241,7 +261,10 @@ export default function CheckoutPage() {
                               />
                             </div>
                             <div>
-                              <Label htmlFor="postalCode" className="text-sm tracking-widest uppercase text-muted-foreground">
+                              <Label
+                                htmlFor="postalCode"
+                                className="text-sm tracking-widest uppercase text-muted-foreground"
+                              >
                                 Codigo Postal
                               </Label>
                               <Input
@@ -275,12 +298,17 @@ export default function CheckoutPage() {
                         <div className="bg-card border border-border p-4 mb-4">
                           <div className="flex items-center gap-3">
                             <CreditCard className="w-5 h-5 text-gold" />
-                            <span className="text-foreground font-medium">Tarjeta de Credito/Debito</span>
+                            <span className="text-foreground font-medium">
+                              Tarjeta de Credito/Debito
+                            </span>
                           </div>
                         </div>
                         <div className="space-y-4">
                           <div>
-                            <Label htmlFor="cardName" className="text-sm tracking-widest uppercase text-muted-foreground">
+                            <Label
+                              htmlFor="cardName"
+                              className="text-sm tracking-widest uppercase text-muted-foreground"
+                            >
                               Nombre en la tarjeta
                             </Label>
                             <Input
@@ -293,7 +321,10 @@ export default function CheckoutPage() {
                             />
                           </div>
                           <div>
-                            <Label htmlFor="cardNumber" className="text-sm tracking-widest uppercase text-muted-foreground">
+                            <Label
+                              htmlFor="cardNumber"
+                              className="text-sm tracking-widest uppercase text-muted-foreground"
+                            >
                               Numero de tarjeta
                             </Label>
                             <Input
@@ -308,7 +339,10 @@ export default function CheckoutPage() {
                           </div>
                           <div className="grid grid-cols-2 gap-4">
                             <div>
-                              <Label htmlFor="cardExpiry" className="text-sm tracking-widest uppercase text-muted-foreground">
+                              <Label
+                                htmlFor="cardExpiry"
+                                className="text-sm tracking-widest uppercase text-muted-foreground"
+                              >
                                 Fecha de expiracion
                               </Label>
                               <Input
@@ -322,7 +356,10 @@ export default function CheckoutPage() {
                               />
                             </div>
                             <div>
-                              <Label htmlFor="cardCvc" className="text-sm tracking-widest uppercase text-muted-foreground">
+                              <Label
+                                htmlFor="cardCvc"
+                                className="text-sm tracking-widest uppercase text-muted-foreground"
+                              >
                                 CVC
                               </Label>
                               <Input
@@ -341,7 +378,9 @@ export default function CheckoutPage() {
 
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Lock className="w-4 h-4" />
-                        <span>Tu informacion de pago esta encriptada y segura</span>
+                        <span>
+                          Tu informacion de pago esta encriptada y segura
+                        </span>
                       </div>
 
                       <div className="flex gap-4">
@@ -374,34 +413,60 @@ export default function CheckoutPage() {
 
                   {/* Cart Items */}
                   <div className="space-y-4 mb-6">
-                    {cartItems.map((item) => (
-                      <div key={item.id} className="flex gap-4">
-                        <div className="relative w-20 h-24 bg-secondary overflow-hidden flex-shrink-0">
-                          <Image
-                            src={item.image || "/placeholder.svg"}
-                            alt={item.name}
-                            fill
-                            className="object-cover"
-                          />
+                    {cartItems.length === 0 ? (
+                      <p className="text-sm text-muted-foreground">
+                        Tu carrito está vacío
+                      </p>
+                    ) : (
+                      cartItems.map((item) => (
+                        <div
+                          key={`${item.id}-${item.size}`}
+                          className="flex gap-4"
+                        >
+                          <div className="relative w-20 h-24 bg-secondary overflow-hidden flex-shrink-0">
+                            <Image
+                              src={item.image}
+                              alt={item.name}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+
+                          <div className="flex-1">
+                            <h3 className="font-medium text-foreground text-sm">
+                              {item.name}
+                            </h3>
+                            <p className="text-xs text-muted-foreground">
+                              Talla: {item.size}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              Cantidad: {item.quantity}
+                            </p>
+                            <p className="text-sm text-foreground mt-1">
+                              ${(item.price * item.quantity).toFixed(2)} EUR
+                            </p>
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => removeFromCart(item.id, item.size)}
+                            className="text-muted-foreground hover:text-destructive transition-colors self-start"
+                            aria-label="Remove item"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
                         </div>
-                        <div className="flex-1">
-                          <h3 className="font-medium text-foreground text-sm">{item.name}</h3>
-                          <p className="text-xs text-muted-foreground">Talla: {item.size}</p>
-                          <p className="text-xs text-muted-foreground">Cantidad: {item.quantity}</p>
-                          <p className="text-sm text-foreground mt-1">${item.price.toFixed(2)} EUR</p>
-                        </div>
-                        <button type="button" className="text-muted-foreground hover:text-destructive transition-colors self-start" aria-label="Remove item">
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    ))}
+                      ))
+                    )}
                   </div>
 
                   {/* Totals */}
                   <div className="border-t border-border pt-4 space-y-3">
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Subtotal</span>
-                      <span className="text-foreground">${subtotal.toFixed(2)} EUR</span>
+                      <span className="text-foreground">
+                        ${subtotal.toFixed(2)} EUR
+                      </span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Envio</span>
@@ -409,7 +474,9 @@ export default function CheckoutPage() {
                     </div>
                     <div className="flex justify-between text-lg font-bold border-t border-border pt-3">
                       <span className="text-foreground">Total</span>
-                      <span className="text-foreground">${total.toFixed(2)} EUR</span>
+                      <span className="text-foreground">
+                        ${total.toFixed(2)} EUR
+                      </span>
                     </div>
                   </div>
 
@@ -418,11 +485,15 @@ export default function CheckoutPage() {
                     <div className="grid grid-cols-3 gap-4 text-center">
                       <div>
                         <Truck className="w-5 h-5 mx-auto mb-1 text-gold" />
-                        <p className="text-xs text-muted-foreground">Envio 24H</p>
+                        <p className="text-xs text-muted-foreground">
+                          Envio 24H
+                        </p>
                       </div>
                       <div>
                         <Shield className="w-5 h-5 mx-auto mb-1 text-gold" />
-                        <p className="text-xs text-muted-foreground">Pago Seguro</p>
+                        <p className="text-xs text-muted-foreground">
+                          Pago Seguro
+                        </p>
                       </div>
                       <div>
                         <Lock className="w-5 h-5 mx-auto mb-1 text-gold" />
@@ -439,5 +510,5 @@ export default function CheckoutPage() {
 
       <Footer />
     </main>
-  )
+  );
 }

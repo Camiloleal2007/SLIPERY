@@ -5,6 +5,7 @@ import { Analytics } from '@vercel/analytics/next'
 import Image from "next/image"
 import './globals.css'
 import ScrollToTop from "@/components/ScrollToTop";
+import { CartProvider } from "@/components/CartContext";
 
 const _playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-display", weight: ["400", "500", "600", "700", "800", "900"] });
 const _inter = Inter({ subsets: ["latin"] });
@@ -42,7 +43,7 @@ export default function RootLayout({
     <html lang="es">
       <body className={`font-sans antialiased ${_playfair.variable}`}>
          <ScrollToTop />
-        {children}
+        <CartProvider>{children}</CartProvider>
         <Analytics />
       </body>
     </html>
