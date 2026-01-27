@@ -72,9 +72,29 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     );
   };
 
-  const clearCart = () => {
-    setCart([]);
-  };
+// En tu CartContext.tsx, agrega esta función:
+const clearCart = () => {
+  setCart([]);
+  // También limpia localStorage si lo estás usando
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem('cart');
+  }
+};
+
+// Asegúrate de incluirla en el value del provider:
+return (
+  <CartContext.Provider 
+    value={{ 
+      cart, 
+      addToCart, 
+      removeFromCart, 
+      updateQuantity, 
+      clearCart // ← Agregar esta línea
+    }}
+  >
+    {children}
+  </CartContext.Provider>
+);
 
   return (
     <CartContext.Provider 

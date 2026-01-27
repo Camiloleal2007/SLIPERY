@@ -20,14 +20,13 @@ import {
   Wallet,
   Smartphone,
   CreditCard,
-  Banknote,
   Check
 } from "lucide-react";
 import { FoxLogo } from "@/components/fox-logo";
 import { useCart } from "@/components/CartContext";
 
 export default function CheckoutPage() {
-  const { cart: cartItems, removeFromCart } = useCart();
+  const { cart: cartItems, removeFromCart, clearCart } = useCart();
   const [formData, setFormData] = useState({
     email: "",
     firstName: "",
@@ -41,6 +40,7 @@ export default function CheckoutPage() {
   const [isCartEmpty, setIsCartEmpty] = useState(true);
   const [isFormValid, setIsFormValid] = useState(false);
   const [metodoSeleccionado, setMetodoSeleccionado] = useState<"paypal" | "sinpe" | "bac">("paypal");
+  const [copiandoItem, setCopiandoItem] = useState<string | null>(null);
 
   // Verificar si el carrito está vacío
   useEffect(() => {
@@ -106,18 +106,30 @@ ${productsText}
     // Codificar el mensaje para URL
     const encodedMessage = encodeURIComponent(message);
     
+    // Limpiar el carrito antes de redirigir
+    clearCart();
+    
     // Redirigir a WhatsApp
     window.open(`https://wa.me/573011946015?text=${encodedMessage}`, '_blank');
   };
 
-  const copiarAlPortapapeles = (texto: string) => {
-    navigator.clipboard.writeText(texto)
-      .then(() => {
-        alert("¡Copiado al portapapeles!");
-      })
-      .catch(err => {
-        console.error('Error al copiar: ', err);
-      });
+  const copiarAlPortapapeles = async (texto: string, itemId: string) => {
+    try {
+      await navigator.clipboard.writeText(texto);
+      
+      // Mostrar animación de "Copiado!!!"
+      setCopiandoItem(itemId);
+      
+      // Ocultar después de 1.5 segundos
+      setTimeout(() => {
+        setCopiandoItem(null);
+      }, 1500);
+      
+    } catch (err) {
+      console.error('Error al copiar: ', err);
+      // Fallback con alerta si falla
+      alert("Error al copiar. Intenta nuevamente.");
+    }
   };
 
   // Datos de las cuentas
@@ -143,6 +155,13 @@ ${productsText}
   };
 
   const cuentaActual = datosCuentas[metodoSeleccionado];
+
+  // IDs para cada elemento copiable
+  const copiableItems = {
+    nombre: `${metodoSeleccionado}-nombre`,
+    cuenta: `${metodoSeleccionado}-cuenta`,
+    referencia: `${metodoSeleccionado}-referencia`
+  };
 
   return (
     <main className="min-h-screen bg-background">
@@ -435,10 +454,17 @@ ${productsText}
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() => copiarAlPortapapeles(cuentaActual.nombre)}
-                              className="h-8 w-8 p-0 hover:bg-secondary"
+                              onClick={() => copiarAlPortapapeles(cuentaActual.nombre, copiableItems.nombre)}
+                              className="h-8 w-20 p-0 hover:bg-secondary transition-all duration-300"
+                              disabled={copiandoItem === copiableItems.nombre}
                             >
-                              <Copy className="w-4 h-4" />
+                              {copiandoItem === copiableItems.nombre ? (
+                                <span className="text-green-500 font-bold animate-pulse">
+                                  ¡Copiado!
+                                </span>
+                              ) : (
+                                <Copy className="w-4 h-4" />
+                              )}
                             </Button>
                           </div>
                         </div>
@@ -457,10 +483,17 @@ ${productsText}
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() => copiarAlPortapapeles(cuentaActual.cuenta)}
-                              className="h-8 w-8 p-0 hover:bg-secondary"
+                              onClick={() => copiarAlPortapapeles(cuentaActual.cuenta, copiableItems.cuenta)}
+                              className="h-8 w-20 p-0 hover:bg-secondary transition-all duration-300"
+                              disabled={copiandoItem === copiableItems.cuenta}
                             >
-                              <Copy className="w-4 h-4" />
+                              {copiandoItem === copiableItems.cuenta ? (
+                                <span className="text-green-500 font-bold animate-pulse">
+                                  ¡Copiado!
+                                </span>
+                              ) : (
+                                <Copy className="w-4 h-4" />
+                              )}
                             </Button>
                           </div>
                         </div>
@@ -477,10 +510,17 @@ ${productsText}
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() => copiarAlPortapapeles(cuentaActual.referencia)}
-                              className="h-8 w-8 p-0 hover:bg-secondary"
+                              onClick={() => copiarAlPortapapeles(cuentaActual.referencia, copiableItems.referencia)}
+                              className="h-8 w-20 p-0 hover:bg-secondary transition-all duration-300"
+                              disabled={copiandoItem === copiableItems.referencia}
                             >
-                              <Copy className="w-4 h-4" />
+                              {copiandoItem === copiableItems.referencia ? (
+                                <span className="text-green-500 font-bold animate-pulse">
+                                  ¡Copiado!
+                                </span>
+                              ) : (
+                                <Copy className="w-4 h-4" />
+                              )}
                             </Button>
                           </div>
                         </div>
@@ -531,7 +571,7 @@ ${productsText}
                   <Button
                     type="submit"
                     disabled={!isFormValid || isCartEmpty}
-                    className={`w-full h-14 font-semibold tracking-widest uppercase ${
+                    className={`w-full h-14 font-semibold tracking-widest uppercase transition-all duration-300 ${
                       isFormValid && !isCartEmpty
                         ? "bg-gold hover:bg-gold-dark text-background"
                         : "bg-gray-300 text-gray-500 cursor-not-allowed"
