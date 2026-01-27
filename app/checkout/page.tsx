@@ -1,8 +1,7 @@
 "use client";
 
 import React from "react";
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/header";
@@ -12,18 +11,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   ChevronLeft,
-  CreditCard,
   Truck,
   Shield,
   Lock,
   Trash2,
+  AlertCircle,
 } from "lucide-react";
 import { FoxLogo } from "@/components/fox-logo";
 import { useCart } from "@/components/CartContext";
 
 export default function CheckoutPage() {
-  const [step, setStep] = useState<"info" | "payment" | "confirm">("info");
-  const { cart: cartItems } = useCart();
+  const { cart: cartItems, removeFromCart } = useCart();
   const [formData, setFormData] = useState({
     email: "",
     firstName: "",
@@ -32,11 +30,30 @@ export default function CheckoutPage() {
     city: "",
     postalCode: "",
     phone: "",
-    cardNumber: "",
-    cardExpiry: "",
-    cardCvc: "",
-    cardName: "",
   });
+
+  const [isCartEmpty, setIsCartEmpty] = useState(true);
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  // Verificar si el carrito está vacío
+  useEffect(() => {
+    setIsCartEmpty(cartItems.length === 0);
+  }, [cartItems]);
+
+  // Validar que todos los campos requeridos estén llenos
+  useEffect(() => {
+    const { email, firstName, lastName, address, city, postalCode, phone } = formData;
+    const isAllFieldsFilled = 
+      email.trim() !== "" &&
+      firstName.trim() !== "" &&
+      lastName.trim() !== "" &&
+      address.trim() !== "" &&
+      city.trim() !== "" &&
+      postalCode.trim() !== "" &&
+      phone.trim() !== "";
+    
+    setIsFormValid(isAllFieldsFilled && !isCartEmpty);
+  }, [formData, isCartEmpty]);
 
   const subtotal = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -52,11 +69,38 @@ export default function CheckoutPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (step === "info") {
-      setStep("payment");
-    } else if (step === "payment") {
-      setStep("confirm");
+    
+    // Validar nuevamente antes de enviar
+    if (!isFormValid || isCartEmpty) {
+      return;
     }
+    
+    // Construir el mensaje para WhatsApp
+    const productsText = cartItems.map(item => 
+      `* ${item.name} (Talla: ${item.size}) x${item.quantity} - $${(item.price * item.quantity).toFixed(2)} EUR`
+    ).join('\n');
+    
+    const message = `📩 NUEVO PEDIDO - SLIPERY
+
+👤 Cliente
+Nombre: ${formData.firstName} ${formData.lastName}
+Email: ${formData.email}
+Teléfono: ${formData.phone}
+
+📍 Dirección
+${formData.address}
+${formData.city}, ${formData.postalCode}
+
+🛍️ Productos
+${productsText}
+
+💰 Total: $${total.toFixed(2)} EUR`;
+
+    // Codificar el mensaje para URL
+    const encodedMessage = encodeURIComponent(message);
+    
+    // Redirigir a WhatsApp
+    window.open(`https://wa.me/573011946015?text=${encodedMessage}`, '_blank');
   };
 
   return (
@@ -77,390 +121,279 @@ export default function CheckoutPage() {
           </div>
         </div>
 
-        {step === "confirm" ? (
-          /* Confirmation */
-          <div className="container mx-auto px-4 py-24 text-center max-w-lg">
-            <div className="mb-8">
-              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gold/20 flex items-center justify-center">
-                <FoxLogo className="w-10 h-10 text-gold" />
+        {/* Checkout Form */}
+        <div className="container mx-auto px-4 py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            {/* Form Section */}
+            <div className="lg:col-span-7">
+              <div className="mb-8">
+                <h1 className="font-[family-name:var(--font-display)] text-3xl font-bold text-foreground mb-2">
+                  FINALIZAR COMPRA
+                </h1>
               </div>
-              <h1 className="font-[family-name:var(--font-display)] text-4xl font-bold text-foreground mb-4">
-                PEDIDO CONFIRMADO
-              </h1>
-              <p className="text-muted-foreground">
-                Gracias por tu compra. Te hemos enviado un email de confirmacion
-                a {formData.email || "tu correo"}.
-              </p>
-            </div>
-            <div className="bg-card border border-border p-6 mb-8 text-left">
-              <p className="text-sm text-muted-foreground mb-2">
-                Numero de pedido
-              </p>
-              <p className="font-[family-name:var(--font-display)] text-xl font-bold text-gold mb-4">
-                #SLP-2026-
-                {Math.random().toString(36).substring(2, 8).toUpperCase()}
-              </p>
-              <div className="border-t border-border pt-4">
-                <p className="text-sm text-muted-foreground mb-2">Total</p>
-                <p className="text-2xl font-bold text-foreground">
-                  ${total.toFixed(2)} EUR
-                </p>
-              </div>
-            </div>
-            <Button
-              asChild
-              className="bg-gold hover:bg-gold-dark text-background font-semibold tracking-widest uppercase px-8"
-            >
-              <Link href="/">Volver al Inicio</Link>
-            </Button>
-          </div>
-        ) : (
-          /* Checkout Form */
-          <div className="container mx-auto px-4 py-12">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-              {/* Form Section */}
-              <div className="lg:col-span-7">
-                {/* Progress */}
-                <div className="flex items-center gap-4 mb-8">
-                  <button
-                    type="button"
-                    onClick={() => setStep("info")}
-                    className={`text-sm tracking-widest uppercase ${step === "info" ? "text-gold" : "text-muted-foreground"}`}
+
+              {isCartEmpty && (
+                <div className="mb-6 p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
+                  <div className="flex items-center gap-2 text-destructive">
+                    <AlertCircle className="w-5 h-5" />
+                    <span className="font-medium">Tu carrito está vacío</span>
+                  </div>
+                  <p className="text-sm text-destructive/80 mt-2">
+                    Agrega productos al carrito antes de realizar un pedido.
+                  </p>
+                  <Button
+                    asChild
+                    className="mt-4 bg-gold hover:bg-gold-dark text-background"
                   >
-                    1. Informacion
-                  </button>
-                  <span className="w-8 h-px bg-border" />
-                  <button
-                    type="button"
-                    onClick={() => step === "payment" && setStep("payment")}
-                    className={`text-sm tracking-widest uppercase ${step === "payment" ? "text-gold" : "text-muted-foreground"}`}
-                  >
-                    2. Pago
-                  </button>
+                    <Link href="/tienda">
+                      Ir a la Tienda
+                    </Link>
+                  </Button>
                 </div>
+              )}
 
-                <form onSubmit={handleSubmit}>
-                  {step === "info" && (
-                    <div className="space-y-8">
-                      {/* Contact */}
+              <form onSubmit={handleSubmit}>
+                <div className="space-y-8">
+                  {/* Contact */}
+                  <div>
+                    <h2 className="font-[family-name:var(--font-display)] text-xl font-bold text-foreground mb-4">
+                      CONTACTO
+                    </h2>
+                    <div className="space-y-4">
                       <div>
-                        <h2 className="font-[family-name:var(--font-display)] text-xl font-bold text-foreground mb-4">
-                          CONTACTO
-                        </h2>
-                        <div className="space-y-4">
-                          <div>
-                            <Label
-                              htmlFor="email"
-                              className="text-sm tracking-widest uppercase text-muted-foreground"
-                            >
-                              Email
-                            </Label>
-                            <Input
-                              id="email"
-                              name="email"
-                              type="email"
-                              value={formData.email}
-                              onChange={handleInputChange}
-                              required
-                              className="mt-2 bg-input border-border focus:border-gold"
-                              placeholder="tu@email.com"
-                            />
-                          </div>
-                          <div>
-                            <Label
-                              htmlFor="phone"
-                              className="text-sm tracking-widest uppercase text-muted-foreground"
-                            >
-                              Telefono
-                            </Label>
-                            <Input
-                              id="phone"
-                              name="phone"
-                              type="tel"
-                              value={formData.phone}
-                              onChange={handleInputChange}
-                              className="mt-2 bg-input border-border focus:border-gold"
-                              placeholder="+34 600 000 000"
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Shipping */}
-                      <div>
-                        <h2 className="font-[family-name:var(--font-display)] text-xl font-bold text-foreground mb-4">
-                          DIRECCION DE ENVIO
-                        </h2>
-                        <div className="space-y-4">
-                          <div className="grid grid-cols-2 gap-4">
-                            <div>
-                              <Label
-                                htmlFor="firstName"
-                                className="text-sm tracking-widest uppercase text-muted-foreground"
-                              >
-                                Nombre
-                              </Label>
-                              <Input
-                                id="firstName"
-                                name="firstName"
-                                value={formData.firstName}
-                                onChange={handleInputChange}
-                                required
-                                className="mt-2 bg-input border-border focus:border-gold"
-                              />
-                            </div>
-                            <div>
-                              <Label
-                                htmlFor="lastName"
-                                className="text-sm tracking-widest uppercase text-muted-foreground"
-                              >
-                                Apellidos
-                              </Label>
-                              <Input
-                                id="lastName"
-                                name="lastName"
-                                value={formData.lastName}
-                                onChange={handleInputChange}
-                                required
-                                className="mt-2 bg-input border-border focus:border-gold"
-                              />
-                            </div>
-                          </div>
-                          <div>
-                            <Label
-                              htmlFor="address"
-                              className="text-sm tracking-widest uppercase text-muted-foreground"
-                            >
-                              Direccion
-                            </Label>
-                            <Input
-                              id="address"
-                              name="address"
-                              value={formData.address}
-                              onChange={handleInputChange}
-                              required
-                              className="mt-2 bg-input border-border focus:border-gold"
-                              placeholder="Calle, numero, piso..."
-                            />
-                          </div>
-                          <div className="grid grid-cols-2 gap-4">
-                            <div>
-                              <Label
-                                htmlFor="city"
-                                className="text-sm tracking-widest uppercase text-muted-foreground"
-                              >
-                                Ciudad
-                              </Label>
-                              <Input
-                                id="city"
-                                name="city"
-                                value={formData.city}
-                                onChange={handleInputChange}
-                                required
-                                className="mt-2 bg-input border-border focus:border-gold"
-                              />
-                            </div>
-                            <div>
-                              <Label
-                                htmlFor="postalCode"
-                                className="text-sm tracking-widest uppercase text-muted-foreground"
-                              >
-                                Codigo Postal
-                              </Label>
-                              <Input
-                                id="postalCode"
-                                name="postalCode"
-                                value={formData.postalCode}
-                                onChange={handleInputChange}
-                                required
-                                className="mt-2 bg-input border-border focus:border-gold"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <Button
-                        type="submit"
-                        className="w-full h-14 bg-gold hover:bg-gold-dark text-background font-semibold tracking-widest uppercase"
-                      >
-                        Continuar al Pago
-                      </Button>
-                    </div>
-                  )}
-
-                  {step === "payment" && (
-                    <div className="space-y-8">
-                      <div>
-                        <h2 className="font-[family-name:var(--font-display)] text-xl font-bold text-foreground mb-4">
-                          METODO DE PAGO
-                        </h2>
-                        <div className="bg-card border border-border p-4 mb-4">
-                          <div className="flex items-center gap-3">
-                            <CreditCard className="w-5 h-5 text-gold" />
-                            <span className="text-foreground font-medium">
-                              Tarjeta de Credito/Debito
-                            </span>
-                          </div>
-                        </div>
-                        <div className="space-y-4">
-                          <div>
-                            <Label
-                              htmlFor="cardName"
-                              className="text-sm tracking-widest uppercase text-muted-foreground"
-                            >
-                              Nombre en la tarjeta
-                            </Label>
-                            <Input
-                              id="cardName"
-                              name="cardName"
-                              value={formData.cardName}
-                              onChange={handleInputChange}
-                              required
-                              className="mt-2 bg-input border-border focus:border-gold"
-                            />
-                          </div>
-                          <div>
-                            <Label
-                              htmlFor="cardNumber"
-                              className="text-sm tracking-widest uppercase text-muted-foreground"
-                            >
-                              Numero de tarjeta
-                            </Label>
-                            <Input
-                              id="cardNumber"
-                              name="cardNumber"
-                              value={formData.cardNumber}
-                              onChange={handleInputChange}
-                              required
-                              className="mt-2 bg-input border-border focus:border-gold"
-                              placeholder="1234 5678 9012 3456"
-                            />
-                          </div>
-                          <div className="grid grid-cols-2 gap-4">
-                            <div>
-                              <Label
-                                htmlFor="cardExpiry"
-                                className="text-sm tracking-widest uppercase text-muted-foreground"
-                              >
-                                Fecha de expiracion
-                              </Label>
-                              <Input
-                                id="cardExpiry"
-                                name="cardExpiry"
-                                value={formData.cardExpiry}
-                                onChange={handleInputChange}
-                                required
-                                className="mt-2 bg-input border-border focus:border-gold"
-                                placeholder="MM/AA"
-                              />
-                            </div>
-                            <div>
-                              <Label
-                                htmlFor="cardCvc"
-                                className="text-sm tracking-widest uppercase text-muted-foreground"
-                              >
-                                CVC
-                              </Label>
-                              <Input
-                                id="cardCvc"
-                                name="cardCvc"
-                                value={formData.cardCvc}
-                                onChange={handleInputChange}
-                                required
-                                className="mt-2 bg-input border-border focus:border-gold"
-                                placeholder="123"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Lock className="w-4 h-4" />
-                        <span>
-                          Tu informacion de pago esta encriptada y segura
-                        </span>
-                      </div>
-
-                      <div className="flex gap-4">
-                        <Button
-                          type="button"
-                          variant="outline"
-                          onClick={() => setStep("info")}
-                          className="flex-1 h-14 border-border text-foreground hover:bg-secondary tracking-widest uppercase"
+                        <Label
+                          htmlFor="email"
+                          className="text-sm tracking-widest uppercase text-muted-foreground"
                         >
-                          Atras
-                        </Button>
-                        <Button
-                          type="submit"
-                          className="flex-1 h-14 bg-gold hover:bg-gold-dark text-background font-semibold tracking-widest uppercase"
+                          Email *
+                        </Label>
+                        <Input
+                          id="email"
+                          name="email"
+                          type="email"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          required
+                          disabled={isCartEmpty}
+                          className="mt-2 bg-input border-border focus:border-gold disabled:opacity-50 disabled:cursor-not-allowed"
+                          placeholder="tu@email.com"
+                        />
+                      </div>
+                      <div>
+                        <Label
+                          htmlFor="phone"
+                          className="text-sm tracking-widest uppercase text-muted-foreground"
                         >
-                          Finalizar Compra
-                        </Button>
+                          Teléfono *
+                        </Label>
+                        <Input
+                          id="phone"
+                          name="phone"
+                          type="tel"
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          required
+                          disabled={isCartEmpty}
+                          className="mt-2 bg-input border-border focus:border-gold disabled:opacity-50 disabled:cursor-not-allowed"
+                          placeholder="+34 600 000 000"
+                        />
                       </div>
                     </div>
-                  )}
-                </form>
-              </div>
-
-              {/* Order Summary */}
-              <div className="lg:col-span-5">
-                <div className="bg-card border border-border p-6 sticky top-24">
-                  <h2 className="font-[family-name:var(--font-display)] text-xl font-bold text-foreground mb-6">
-                    RESUMEN DEL PEDIDO
-                  </h2>
-
-                  {/* Cart Items */}
-                  <div className="space-y-4 mb-6">
-                    {cartItems.length === 0 ? (
-                      <p className="text-sm text-muted-foreground">
-                        Tu carrito está vacío
-                      </p>
-                    ) : (
-                      cartItems.map((item) => (
-                        <div
-                          key={`${item.id}-${item.size}`}
-                          className="flex gap-4"
-                        >
-                          <div className="relative w-20 h-24 bg-secondary overflow-hidden flex-shrink-0">
-                            <Image
-                              src={item.image}
-                              alt={item.name}
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-
-                          <div className="flex-1">
-                            <h3 className="font-medium text-foreground text-sm">
-                              {item.name}
-                            </h3>
-                            <p className="text-xs text-muted-foreground">
-                              Talla: {item.size}
-                            </p>
-                            <p className="text-xs text-muted-foreground">
-                              Cantidad: {item.quantity}
-                            </p>
-                            <p className="text-sm text-foreground mt-1">
-                              ${(item.price * item.quantity).toFixed(2)} EUR
-                            </p>
-                          </div>
-
-                          <button
-                            type="button"
-                            onClick={() => removeFromCart(item.id, item.size)}
-                            className="text-muted-foreground hover:text-destructive transition-colors self-start"
-                            aria-label="Remove item"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </div>
-                      ))
-                    )}
                   </div>
 
-                  {/* Totals */}
+                  {/* Shipping */}
+                  <div>
+                    <h2 className="font-[family-name:var(--font-display)] text-xl font-bold text-foreground mb-4">
+                      DIRECCIÓN DE ENVÍO
+                    </h2>
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <Label
+                            htmlFor="firstName"
+                            className="text-sm tracking-widest uppercase text-muted-foreground"
+                          >
+                            Nombre *
+                          </Label>
+                          <Input
+                            id="firstName"
+                            name="firstName"
+                            value={formData.firstName}
+                            onChange={handleInputChange}
+                            required
+                            disabled={isCartEmpty}
+                            className="mt-2 bg-input border-border focus:border-gold disabled:opacity-50 disabled:cursor-not-allowed"
+                            placeholder="Juan"
+                          />
+                        </div>
+                        <div>
+                          <Label
+                            htmlFor="lastName"
+                            className="text-sm tracking-widest uppercase text-muted-foreground"
+                          >
+                            Apellidos *
+                          </Label>
+                          <Input
+                            id="lastName"
+                            name="lastName"
+                            value={formData.lastName}
+                            onChange={handleInputChange}
+                            required
+                            disabled={isCartEmpty}
+                            className="mt-2 bg-input border-border focus:border-gold disabled:opacity-50 disabled:cursor-not-allowed"
+                            placeholder="Pérez García"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <Label
+                          htmlFor="address"
+                          className="text-sm tracking-widest uppercase text-muted-foreground"
+                        >
+                          Dirección *
+                        </Label>
+                          <Input
+                            id="address"
+                            name="address"
+                            value={formData.address}
+                            onChange={handleInputChange}
+                            required
+                            disabled={isCartEmpty}
+                            className="mt-2 bg-input border-border focus:border-gold disabled:opacity-50 disabled:cursor-not-allowed"
+                            placeholder="Calle, número, piso..."
+                          />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <Label
+                            htmlFor="city"
+                            className="text-sm tracking-widest uppercase text-muted-foreground"
+                          >
+                            Ciudad *
+                          </Label>
+                          <Input
+                            id="city"
+                            name="city"
+                            value={formData.city}
+                            onChange={handleInputChange}
+                            required
+                            disabled={isCartEmpty}
+                            className="mt-2 bg-input border-border focus:border-gold disabled:opacity-50 disabled:cursor-not-allowed"
+                            placeholder="Madrid"
+                          />
+                        </div>
+                        <div>
+                          <Label
+                            htmlFor="postalCode"
+                            className="text-sm tracking-widest uppercase text-muted-foreground"
+                          >
+                            Código Postal *
+                          </Label>
+                          <Input
+                            id="postalCode"
+                            name="postalCode"
+                            value={formData.postalCode}
+                            onChange={handleInputChange}
+                            required
+                            disabled={isCartEmpty}
+                            className="mt-2 bg-input border-border focus:border-gold disabled:opacity-50 disabled:cursor-not-allowed"
+                            placeholder="28001"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground p-4 bg-secondary/50 rounded-lg">
+                    <Lock className="w-4 h-4" />
+                    <span>
+                      Al hacer clic en "Realizar Pedido", serás redirigido a WhatsApp para confirmar tu compra
+                    </span>
+                  </div>
+
+                  <Button
+                    type="submit"
+                    disabled={!isFormValid || isCartEmpty}
+                    className={`w-full h-14 font-semibold tracking-widest uppercase ${
+                      isFormValid && !isCartEmpty
+                        ? "bg-gold hover:bg-gold-dark text-background"
+                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    }`}
+                  >
+                    {isCartEmpty ? "Carrito Vacío" : "Realizar Pedido por WhatsApp"}
+                  </Button>
+                </div>
+              </form>
+            </div>
+
+            {/* Order Summary */}
+            <div className="lg:col-span-5">
+              <div className="bg-card border border-border p-6 sticky top-24">
+                <h2 className="font-[family-name:var(--font-display)] text-xl font-bold text-foreground mb-6">
+                  RESUMEN DEL PEDIDO
+                </h2>
+
+                {/* Cart Items */}
+                <div className="space-y-4 mb-6">
+                  {cartItems.length === 0 ? (
+                    <div className="text-center py-8">
+                      <p className="text-muted-foreground mb-4">
+                        No hay productos en el carrito
+                      </p>
+                      <Button
+                        asChild
+                        className="bg-gold hover:bg-gold-dark text-background"
+                      >
+                        <Link href="/tienda">
+                          Ver Productos
+                        </Link>
+                      </Button>
+                    </div>
+                  ) : (
+                    cartItems.map((item) => (
+                      <div
+                        key={`${item.id}-${item.size}`}
+                        className="flex gap-4"
+                      >
+                        <div className="relative w-20 h-24 bg-secondary overflow-hidden flex-shrink-0">
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+
+                        <div className="flex-1">
+                          <h3 className="font-medium text-foreground text-sm">
+                            {item.name}
+                          </h3>
+                          <p className="text-xs text-muted-foreground">
+                            Talla: {item.size}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            Cantidad: {item.quantity}
+                          </p>
+                          <p className="text-sm text-foreground mt-1">
+                            ${(item.price * item.quantity).toFixed(2)} EUR
+                          </p>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => removeFromCart(item.id, item.size)}
+                          className="text-muted-foreground hover:text-destructive transition-colors self-start"
+                          aria-label="Remove item"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))
+                  )}
+                </div>
+
+                {/* Totals */}
+                {cartItems.length > 0 && (
                   <div className="border-t border-border pt-4 space-y-3">
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Subtotal</span>
@@ -469,7 +402,7 @@ export default function CheckoutPage() {
                       </span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">Envio</span>
+                      <span className="text-muted-foreground">Envío</span>
                       <span className="text-gold">GRATIS</span>
                     </div>
                     <div className="flex justify-between text-lg font-bold border-t border-border pt-3">
@@ -479,33 +412,33 @@ export default function CheckoutPage() {
                       </span>
                     </div>
                   </div>
+                )}
 
-                  {/* Trust badges */}
-                  <div className="mt-6 pt-6 border-t border-border">
-                    <div className="grid grid-cols-3 gap-4 text-center">
-                      <div>
-                        <Truck className="w-5 h-5 mx-auto mb-1 text-gold" />
-                        <p className="text-xs text-muted-foreground">
-                          Envio 24H
-                        </p>
-                      </div>
-                      <div>
-                        <Shield className="w-5 h-5 mx-auto mb-1 text-gold" />
-                        <p className="text-xs text-muted-foreground">
-                          Pago Seguro
-                        </p>
-                      </div>
-                      <div>
-                        <Lock className="w-5 h-5 mx-auto mb-1 text-gold" />
-                        <p className="text-xs text-muted-foreground">SSL</p>
-                      </div>
+                {/* Trust badges */}
+                <div className="mt-6 pt-6 border-t border-border">
+                  <div className="grid grid-cols-3 gap-4 text-center">
+                    <div>
+                      <Truck className="w-5 h-5 mx-auto mb-1 text-gold" />
+                      <p className="text-xs text-muted-foreground">
+                        Envío 24H
+                      </p>
+                    </div>
+                    <div>
+                      <Shield className="w-5 h-5 mx-auto mb-1 text-gold" />
+                      <p className="text-xs text-muted-foreground">
+                        Pago Seguro
+                      </p>
+                    </div>
+                    <div>
+                      <Lock className="w-5 h-5 mx-auto mb-1 text-gold" />
+                      <p className="text-xs text-muted-foreground">SSL</p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        )}
+        </div>
       </div>
 
       <Footer />
