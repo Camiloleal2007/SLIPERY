@@ -16,6 +16,12 @@ import {
   Lock,
   Trash2,
   AlertCircle,
+  Copy,
+  Wallet,
+  Smartphone,
+  CreditCard,
+  Banknote,
+  Check
 } from "lucide-react";
 import { FoxLogo } from "@/components/fox-logo";
 import { useCart } from "@/components/CartContext";
@@ -34,6 +40,7 @@ export default function CheckoutPage() {
 
   const [isCartEmpty, setIsCartEmpty] = useState(true);
   const [isFormValid, setIsFormValid] = useState(false);
+  const [metodoSeleccionado, setMetodoSeleccionado] = useState<"paypal" | "sinpe" | "bac">("paypal");
 
   // Verificar si el carrito está vacío
   useEffect(() => {
@@ -102,6 +109,40 @@ ${productsText}
     // Redirigir a WhatsApp
     window.open(`https://wa.me/573011946015?text=${encodedMessage}`, '_blank');
   };
+
+  const copiarAlPortapapeles = (texto: string) => {
+    navigator.clipboard.writeText(texto)
+      .then(() => {
+        alert("¡Copiado al portapapeles!");
+      })
+      .catch(err => {
+        console.error('Error al copiar: ', err);
+      });
+  };
+
+  // Datos de las cuentas
+  const datosCuentas = {
+    paypal: {
+      nombre: "Kendall Ortiz López",
+      cuenta: "Kendallortizlopez@gmail.com",
+      tipo: "Email PayPal",
+      referencia: "Transferencia PayPal"
+    },
+    sinpe: {
+      nombre: "Kendall Ortiz López",
+      cuenta: "71880901",
+      tipo: "sinpemovil",
+      referencia: "Sinpe Móvil - Kendall Ortiz López"
+    },
+    bac: {
+      nombre: "SLIPERY S.L.",
+      cuenta: "CR18010200009510484120",
+      tipo: "Cuenta BAC",
+      referencia: "Banco BAC - Cuenta Corriente"
+    }
+  };
+
+  const cuentaActual = datosCuentas[metodoSeleccionado];
 
   return (
     <main className="min-h-screen bg-background">
@@ -299,6 +340,182 @@ ${productsText}
                             className="mt-2 bg-input border-border focus:border-gold disabled:opacity-50 disabled:cursor-not-allowed"
                             placeholder="28001"
                           />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* SECCIÓN DE DATOS BANCARIOS */}
+                  <div className="pt-6">
+                    <h2 className="font-[family-name:var(--font-display)] text-xl font-bold text-foreground mb-4">
+                      DATOS PARA TRANSFERENCIA
+                    </h2>
+                    
+                    {/* Selección de método */}
+                    <div className="mb-6">
+                      <div className="grid grid-cols-3 gap-2 mb-4">
+                        <button
+                          type="button"
+                          onClick={() => setMetodoSeleccionado("paypal")}
+                          className={`flex flex-col items-center p-3 rounded-lg border transition-all ${
+                            metodoSeleccionado === "paypal"
+                              ? "border-red-500/50 bg-red-500/10 text-white"
+                              : "border-gray-800 bg-gray-900/50 text-gray-400 hover:bg-gray-800/50"
+                          }`}
+                        >
+                          <Wallet className={`w-5 h-5 mb-1 ${metodoSeleccionado === "paypal" ? "text-red-400" : ""}`} />
+                          <span className="text-sm font-medium">PayPal</span>
+                        </button>
+                        
+                        <button
+                          type="button"
+                          onClick={() => setMetodoSeleccionado("sinpe")}
+                          className={`flex flex-col items-center p-3 rounded-lg border transition-all ${
+                            metodoSeleccionado === "sinpe"
+                              ? "border-red-500/50 bg-red-500/10 text-white"
+                              : "border-gray-800 bg-gray-900/50 text-gray-400 hover:bg-gray-800/50"
+                          }`}
+                        >
+                          <Smartphone className={`w-5 h-5 mb-1 ${metodoSeleccionado === "sinpe" ? "text-red-400" : ""}`} />
+                          <span className="text-sm font-medium">Sinpe</span>
+                        </button>
+                        
+                        <button
+                          type="button"
+                          onClick={() => setMetodoSeleccionado("bac")}
+                          className={`flex flex-col items-center p-3 rounded-lg border transition-all ${
+                            metodoSeleccionado === "bac"
+                              ? "border-red-500/50 bg-red-500/10 text-white"
+                              : "border-gray-800 bg-gray-900/50 text-gray-400 hover:bg-gray-800/50"
+                          }`}
+                        >
+                          <CreditCard className={`w-5 h-5 mb-1 ${metodoSeleccionado === "bac" ? "text-red-400" : ""}`} />
+                          <span className="text-sm font-medium">BAC</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Información de la cuenta */}
+                    <div className="bg-card border border-border rounded-lg p-4 mb-4">
+                      <div className="flex items-center justify-between mb-4 pb-3 border-b border-border">
+                        <div className="flex items-center gap-3">
+                          <div className={`p-2 rounded ${metodoSeleccionado === "paypal" ? "bg-blue-500/20" : metodoSeleccionado === "sinpe" ? "bg-green-500/20" : "bg-purple-500/20"}`}>
+                            {metodoSeleccionado === "paypal" && <Wallet className="w-5 h-5 text-blue-400" />}
+                            {metodoSeleccionado === "sinpe" && <Smartphone className="w-5 h-5 text-green-400" />}
+                            {metodoSeleccionado === "bac" && <CreditCard className="w-5 h-5 text-purple-400" />}
+                          </div>
+                          <div>
+                            <h3 className="font-bold text-foreground">
+                              {metodoSeleccionado === "paypal" ? "PayPal" :
+                               metodoSeleccionado === "sinpe" ? "Sinpe Móvil" : "Banco BAC"}
+                            </h3>
+                            <p className="text-sm text-muted-foreground">
+                              Datos para transferencia
+                            </p>
+                          </div>
+                        </div>
+                        <div className="px-3 py-1 bg-red-500/20 border border-red-500/30 rounded-full">
+                          <span className="text-red-400 text-sm font-medium">ACTIVO</span>
+                        </div>
+                      </div>
+
+                      {/* Tabla de datos */}
+                      <div className="space-y-3">
+                        {/* Fila 1: Nombre/Titular */}
+                        <div className="flex items-center justify-between">
+                          <div className="w-1/3">
+                            <span className="text-sm text-muted-foreground">
+                              {metodoSeleccionado === "paypal" ? "Email PayPal" :
+                               metodoSeleccionado === "sinpe" ? "Titular" : 
+                               "Empresa"}
+                            </span>
+                          </div>
+                          <div className="flex-1 flex items-center justify-between bg-input rounded px-3 py-2 border border-border">
+                            <span className="text-foreground">{cuentaActual.nombre}</span>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => copiarAlPortapapeles(cuentaActual.nombre)}
+                              className="h-8 w-8 p-0 hover:bg-secondary"
+                            >
+                              <Copy className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+
+                        {/* Fila 2: Cuenta/Número */}
+                        <div className="flex items-center justify-between">
+                          <div className="w-1/3">
+                            <span className="text-sm text-muted-foreground">
+                              {metodoSeleccionado === "paypal" ? "Para transferir" :
+                               metodoSeleccionado === "sinpe" ? "Número" : 
+                               "Cuenta"}
+                            </span>
+                          </div>
+                          <div className="flex-1 flex items-center justify-between bg-input rounded px-3 py-2 border border-border">
+                            <span className="text-foreground font-mono">{cuentaActual.cuenta}</span>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => copiarAlPortapapeles(cuentaActual.cuenta)}
+                              className="h-8 w-8 p-0 hover:bg-secondary"
+                            >
+                              <Copy className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+
+                        {/* Fila 3: Referencia */}
+                        <div className="flex items-center justify-between">
+                          <div className="w-1/3">
+                            <span className="text-sm text-muted-foreground">
+                              Referencia
+                            </span>
+                          </div>
+                          <div className="flex-1 flex items-center justify-between bg-input rounded px-3 py-2 border border-border">
+                            <span className="text-foreground">{cuentaActual.referencia}</span>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => copiarAlPortapapeles(cuentaActual.referencia)}
+                              className="h-8 w-8 p-0 hover:bg-secondary"
+                            >
+                              <Copy className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Instrucciones */}
+                      <div className="mt-4 pt-3 border-t border-border">
+                        <div className="flex items-start gap-2">
+                          <div className="w-4 h-4 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <Check className="w-2.5 h-2.5 text-red-400" />
+                          </div>
+                          <div>
+                            <p className="text-foreground text-sm font-medium mb-1">Instrucciones:</p>
+                            <ul className="text-muted-foreground text-xs space-y-0.5">
+                              {metodoSeleccionado === "paypal" && (
+                                <>
+                                  <li>1. Envía el pago al email indicado</li>
+                                  <li>2. Usa tu número de pedido como referencia</li>
+                                </>
+                              )}
+                              {metodoSeleccionado === "sinpe" && (
+                                <>
+                                  <li>1. Realiza transferencia al número indicado</li>
+                                  <li>2. Toma screenshot del comprobante</li>
+                                </>
+                              )}
+                              {metodoSeleccionado === "bac" && (
+                                <>
+                                  <li>1. Transfiere a la cuenta indicada</li>
+                                  <li>2. Usa tu número de pedido como referencia</li>
+                                </>
+                              )}
+                              <li>3. Envía el comprobante por WhatsApp</li>
+                            </ul>
+                          </div>
                         </div>
                       </div>
                     </div>
