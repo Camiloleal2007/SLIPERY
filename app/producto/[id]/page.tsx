@@ -17,7 +17,6 @@ import {
   Truck,
   RotateCcw,
   Shield,
-  CreditCard,
 } from "lucide-react";
 import { products, allProducts } from "@/lib/data";
 
@@ -81,7 +80,7 @@ function InfiniteCarousel({ currentProductId }: { currentProductId: string }) {
             <h3 className="font-semibold group-hover:text-gold transition-colors">
               {product.name}
             </h3>
-            <p>${product.price.toFixed(2)} EUR</p>
+            <p>${product.price.toLocaleString()} COP</p>
           </Link>
         ))}
       </div>
@@ -95,7 +94,16 @@ export default function ProductPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
-  const product = products[id] || products["hoodie-oversized-black"];
+  const product = products[id];
+
+  // 🚨 VALIDACIÓN PRO
+  if (!product) {
+    return (
+      <main className="min-h-screen flex items-center justify-center text-white">
+        <h1 className="text-2xl">Producto no encontrado</h1>
+      </main>
+    );
+  }
 
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
@@ -106,7 +114,6 @@ export default function ProductPage({
   const handleAddToCart = () => {
     if (!selectedSize) return;
 
-    // Agregar al carrito
     addToCart({
       id: product.id,
       name: product.name,
@@ -116,7 +123,6 @@ export default function ProductPage({
       image: product.image,
     });
 
-    // Mostrar el modal con animación
     setShowModal(true);
   };
 
@@ -133,10 +139,11 @@ export default function ProductPage({
         </Link>
 
         <div className="grid lg:grid-cols-2 gap-16">
+          {/* IMÁGENES */}
           <div>
             <div className="relative aspect-[3/4] bg-card mb-4">
               <Image
-                src={product.gallery[selectedImage]}
+                src={product.gallery?.[selectedImage] || product.image}
                 alt={product.name}
                 fill
                 className="object-cover"
@@ -158,15 +165,21 @@ export default function ProductPage({
             </div>
           </div>
 
+          {/* INFO */}
           <div>
             <p className="text-gold uppercase tracking-widest">
               {product.category}
             </p>
             <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
-            <p className="text-3xl mb-6">${product.price.toFixed(2)} EUR</p>
+            <p className="text-3xl mb-6">
+              ${product.price.toLocaleString()} COP
+            </p>
 
-            <p className="text-muted-foreground mb-8">{product.description}</p>
+            <p className="text-muted-foreground mb-8">
+              {product.description}
+            </p>
 
+            {/* TALLAS */}
             <div className="flex gap-3 mb-8">
               {product.sizes.map(({ size, available }) => (
                 <button
@@ -174,60 +187,67 @@ export default function ProductPage({
                   disabled={!available}
                   onClick={() => available && setSelectedSize(size)}
                   className={`relative w-14 h-14 border transition-all duration-300
-        ${
-          !available
-            ? "opacity-40 cursor-not-allowed"
-            : selectedSize === size
-              ? "bg-gold text-black"
-              : ""
-        }
-      `}
+                    ${
+                      !available
+                        ? "opacity-40 cursor-not-allowed"
+                        : selectedSize === size
+                        ? "bg-gold text-black"
+                        : ""
+                    }
+                  `}
                 >
                   {size}
 
-                  {/* Línea diagonal para talla agotada */}
                   {!available && (
-                    <span className="absolute inset-0 pointer-events-none">
-                      <span className="absolute inset-0 flex items-center justify-center">
-                        <span className="w-full h-[2px] bg-current rotate-45" />
-                      </span>
+                    <span className="absolute inset-0 flex items-center justify-center">
+                      <span className="w-full h-[2px] bg-current rotate-45" />
                     </span>
                   )}
                 </button>
               ))}
             </div>
 
+            {/* CANTIDAD */}
             <div className="flex items-center mb-8">
-              <button 
-                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                className="p-2 hover:bg-secondary rounded-full transition-colors"
+              <button
+                onClick={() =>
+                  setQuantity((q) => Math.max(1, q - 1))
+                }
+                className="p-2 hover:bg-secondary rounded-full"
               >
                 <Minus />
               </button>
-              <span className="mx-4 text-lg font-semibold w-8 text-center">{quantity}</span>
-              <button 
+
+              <span className="mx-4 text-lg font-semibold w-8 text-center">
+                {quantity}
+              </span>
+
+              <button
                 onClick={() => setQuantity((q) => q + 1)}
-                className="p-2 hover:bg-secondary rounded-full transition-colors"
+                className="p-2 hover:bg-secondary rounded-full"
               >
                 <Plus />
               </button>
             </div>
 
+            {/* BOTÓN */}
             <Button
               disabled={!selectedSize}
               onClick={handleAddToCart}
-              className={`w-full h-16 text-lg font-bold tracking-widest uppercase transition-all duration-300
-    ${
-      selectedSize
-        ? "bg-gold text-black hover:scale-[1.02]"
-        : "bg-gold/50 text-black/60 cursor-not-allowed"
-    }
-  `}
+              className={`w-full h-16 text-lg font-bold uppercase
+                ${
+                  selectedSize
+                    ? "bg-gold text-black hover:scale-[1.02]"
+                    : "bg-gold/50 text-black/60 cursor-not-allowed"
+                }
+              `}
             >
-              {selectedSize ? "Agregar al carrito" : "Selecciona una talla"}
+              {selectedSize
+                ? "Agregar al carrito"
+                : "Selecciona una talla"}
             </Button>
 
-            {/* Botón de favoritos (opcional) */}
+            {/* FAVORITOS */}
             <Button
               variant="outline"
               className="w-full h-12 mt-4 border-border hover:bg-secondary"
@@ -236,26 +256,34 @@ export default function ProductPage({
               Agregar a favoritos
             </Button>
 
-            {/* Información adicional del producto */}
+            {/* INFO EXTRA */}
             <div className="mt-8 pt-8 border-t border-border space-y-4">
               <div className="flex items-center gap-3">
                 <Truck className="w-5 h-5 text-gold" />
-                <span className="text-sm">Envío gratis a toda España</span>
+                <span className="text-sm">
+                  Envío gratis en Colombia
+                </span>
               </div>
+
               <div className="flex items-center gap-3">
                 <RotateCcw className="w-5 h-5 text-gold" />
-                <span className="text-sm">Devoluciones gratuitas hasta 30 días</span>
+                <span className="text-sm">
+                  Devoluciones hasta 7 días
+                </span>
               </div>
+
               <div className="flex items-center gap-3">
                 <Shield className="w-5 h-5 text-gold" />
-                <span className="text-sm">Pago 100% seguro</span>
+                <span className="text-sm">
+                  Pago seguro
+                </span>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Modal de confirmación de carrito */}
+      {/* MODAL */}
       <ModalCarrito
         isOpen={showModal}
         onClose={() => setShowModal(false)}
@@ -265,6 +293,7 @@ export default function ProductPage({
         quantity={quantity}
       />
 
+      {/* RECOMENDADOS */}
       <section className="py-20 bg-card">
         <h2 className="text-center text-3xl font-bold mb-10">
           TAMBIÉN TE PUEDE GUSTAR

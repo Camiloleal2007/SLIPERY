@@ -1,242 +1,369 @@
 // src/lib/data.ts
 
 export type Product = {
-  id: string
-  name: string
-  price: number
-  image: string
-  gallery: string[]
-  category: string
-  description: string
-  details: string[]
-  material: string
-  sizes: { size: string; available: boolean }[]
-}
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  gallery: string[];
+  category: "topwear" | "bottomwear" | "conjuntos";
+  description: string;
+  details: string[];
+  material: string;
+  sizes: { size: string; available: boolean }[];
+};
 
 export const products: Record<string, Product> = {
-  "hoodie-nike-tech-fleece-stussy": {
-    id: "hoodie-nike-tech-fleece-stussy",
-    name: "Nike Tech Fleece x Stüssy Hoodie",
-    price: 38000,
-    image: "/images/product-hoodie.jpg",
+  // 🔥 EJEMPLO TOPWEAR
+  "comprension-larga-topwear-negra": {
+    id: "comprension-larga-topwear-negra",
+    name: "Camiseta De Comprensión Larga Negra",
+    price: 60.000,
+    image: "https://s.alicdn.com/@sc04/kf/H0629038ce05e41f99819c011a6a2c4484.jpg?avif=close&webp=close",
     gallery: [
-      "/images/product-hoodie.jpg",
-      "/images/product-hoodie.jpg",
-      "/images/product-hoodie.jpg",
-      "/images/product-hoodie.jpg",
+      "https://s.alicdn.com/@sc04/kf/H0629038ce05e41f99819c011a6a2c4484.jpg?avif=close&webp=close"
     ],
-    category: "Hoodies",
-    description:
-      "Hoodie oversized de corte premium con capucha ajustable y bolsillo canguro. Fabricado con algodon organico de alta calidad para maxima comodidad urbana.",
+    category: "topwear",
+    description: "Camiseta urbana con diseño gráfico abstracto que destaca por su estilo moderno y auténtico 🔥. Confeccionada en algodón premium, ofrece comodidad, transpirabilidad y alta durabilidad 💯. Ideal para elevar cualquier outfit streetwear con un toque distintivo 👕.",
     details: [
-      "100% Algodon Organico",
-      "Capucha con cordon premium",
-      "Bolsillo canguro funcional",
-      "Costuras reforzadas",
-      "Lavado a maquina",
+      "Comprimido",
+      "Secado rápido",
+      "Transpirable",
+      "Antipilling"
     ],
-    material: "100% Algodon Organico Premium",
+    material: "Lycra / poliéster",
     sizes: [
-      { size: "XS", available: false },
-      { size: "S", available: false },
-      { size: "M", available: false },
-      { size: "L", available: true },
-      { size: "XL", available: false },
-      { size: "XXL", available: false },
-    ],
-  },
-
-  "Valley-Dreams-tshirt": {
-    id: "Valley-Dreams-tshirt",
-    name: "Valley Dreams",
-    price: 18900,
-    image: "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.37.18_AM_fmplzh.jpg",
-    gallery: [
-      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.37.18_AM_fmplzh.jpg",
-      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.37.18_AM_fmplzh.jpg",
-      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.37.18_AM_fmplzh.jpg",
-      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.37.18_AM_fmplzh.jpg",
-    ],
-    category: "Camisetas",
-    description:
-      "Camiseta esencial de corte relajado con cuello redondo reforzado. El basico perfecto para cualquier outfit urbano.",
-    details: [
-      "100% Algodon Premium",
-      "Cuello reforzado",
-      "Costuras dobles",
-      "Etiqueta impresa",
-      "Lavado a maquina",
-    ],
-    material: "100% Algodon Premium",
-    sizes: [
-      { size: "XS", available: false },
-      { size: "S", available: true },
-      { size: "M", available: false },
-      { size: "L", available: false },
-      { size: "XL", available: false },
-      { size: "XXL", available: false },
-    ],
-  },
-
-  "Jersey-Black-21": {
-    id: "Jersey-Black-21",
-    name: "Jersey Black 21",
-    price: 12000,
-    image: "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.38.46_AM_atsb26.jpg",
-    gallery: [
-      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.38.46_AM_atsb26.jpg",
-      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.38.46_AM_atsb26.jpg",
-      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.38.46_AM_atsb26.jpg",
-      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.38.46_AM_atsb26.jpg",
-    ],
-    category: "Camisetas",
-    description:
-      "Camiseta esencial de corte relajado con cuello redondo reforzado. El basico perfecto para cualquier outfit urbano.",
-    details: [
-      "100% Algodon Premium",
-      "Cuello reforzado",
-      "Costuras dobles",
-      "Etiqueta impresa",
-      "Lavado a maquina",
-    ],
-    material: "100% Algodon Premium",
-    sizes: [
-      { size: "XS", available: false },
       { size: "S", available: false },
       { size: "M", available: true },
-      { size: "L", available: false },
-      { size: "XL", available: false },
-      { size: "XXL", available: false },
-    ],
-  },
-  "Stussy-Polo-White": {
-    id: "Stussy-Polo-White",
-    name: "Stüssy Polo White",
-    price: 18900,
-    image: "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.39.29_AM_gdctrn.jpg",
-    gallery: [
-      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.39.29_AM_gdctrn.jpg",
-      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.39.29_AM_gdctrn.jpg",
-      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.39.29_AM_gdctrn.jpg",
-      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.39.29_AM_gdctrn.jpg",
-    ],
-    category: "Camisetas",
-    description:
-      "Camiseta esencial de corte relajado con cuello redondo reforzado. El basico perfecto para cualquier outfit urbano.",
-    details: [
-      "100% Algodon Premium",
-      "Cuello reforzado",
-      "Costuras dobles",
-      "Etiqueta impresa",
-      "Lavado a maquina",
-    ],
-    material: "100% Algodon Premium",
-    sizes: [
-      { size: "XS", available: false },
-      { size: "S", available: false },
-      { size: "M", available: false },
       { size: "L", available: true },
       { size: "XL", available: false },
-      { size: "XXL", available: false },
-    ],
-  },
-  "Stussy-Polo-Black": {
-    id: "Stussy-Polo-Black",
-    name: "Stüssy Polo Black",
-    price: 18900,
-    image: "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.40.13_AM_1_k95cin.jpg",
-    gallery: [
-      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.40.13_AM_1_k95cin.jpg",
-      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.40.13_AM_1_k95cin.jpg",
-      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.40.13_AM_1_k95cin.jpg",
-      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.40.13_AM_1_k95cin.jpg",
-    ],
-    category: "Camisetas",
-    description:
-      "Camiseta esencial de corte relajado con cuello redondo reforzado. El basico perfecto para cualquier outfit urbano.",
-    details: [
-      "100% Algodon Premium",
-      "Cuello reforzado",
-      "Costuras dobles",
-      "Etiqueta impresa",
-      "Lavado a maquina",
-    ],
-    material: "100% Algodon Premium",
-    sizes: [
-      { size: "XS", available: false },
-      { size: "S", available: false },
-      { size: "M", available: false },
-      { size: "L", available: true },
-      { size: "XL", available: false },
-      { size: "XXL", available: false },
     ],
   },
 
-  "cargo-pants-urban": {
-    id: "cargo-pants-urban",
-    name: "Cargo Urban",
-    price: 79.99,
-    image: "/images/product-pants.jpg",
+  "comprension-larga-topwear-azul": {
+    id: "comprension-larga-topwear-azul",
+    name: "Camiseta De Comprensión Larga Azul",
+    price: 60.000,
+    image: "https://s.alicdn.com/@sc04/kf/H11eb846a75914400a07167102cb0644fR.jpg?avif=close&webp=close",
     gallery: [
-      "/images/product-pants.jpg",
-      "/images/product-pants.jpg",
-      "/images/product-pants.jpg",
-      "/images/product-pants.jpg",
+      "https://s.alicdn.com/@sc04/kf/H11eb846a75914400a07167102cb0644fR.jpg?avif=close&webp=close"
     ],
-    category: "Pantalones",
-    description:
-      "Pantalon cargo con multiples bolsillos funcionales y corte comodo. Disenado para el movimiento urbano.",
+    category: "topwear",
+    description: "Camiseta urbana con diseño gráfico abstracto que destaca por su estilo moderno y auténtico 🔥. Confeccionada en algodón premium, ofrece comodidad, transpirabilidad y alta durabilidad 💯. Ideal para elevar cualquier outfit streetwear con un toque distintivo 👕.",
     details: [
-      "98% Algodon, 2% Elastano",
-      "6 bolsillos funcionales",
-      "Cintura elastica ajustable",
-      "Corte relaxed tapered",
-      "Lavado a maquina",
+      "Comprimido",
+      "Secado rápido",
+      "Transpirable",
+      "Antipilling"
     ],
-    material: "98% Algodon, 2% Elastano",
+    material: "Lycra / poliéster",
     sizes: [
-      { size: "XS", available: false },
+      { size: "S", available: false },
+      { size: "M", available: true },
+      { size: "L", available: true },
+      { size: "XL", available: false },
+    ],
+  },
+
+  "comprension-larga-topwear-blanca": {
+    id: "comprension-larga-topwear-blanca",
+    name: "Camiseta De Comprensión Larga Blanca",
+    price: 60.000,
+    image: "https://s.alicdn.com/@sc04/kf/H3577548e6a6e473b92bf6e090ae8ea20n.jpg?avif=close&webp=close",
+    gallery: [
+      "https://s.alicdn.com/@sc04/kf/H3577548e6a6e473b92bf6e090ae8ea20n.jpg?avif=close&webp=close"
+    ],
+    category: "topwear",
+    description: "Camiseta urbana con diseño gráfico abstracto que destaca por su estilo moderno y auténtico 🔥. Confeccionada en algodón premium, ofrece comodidad, transpirabilidad y alta durabilidad 💯. Ideal para elevar cualquier outfit streetwear con un toque distintivo 👕.",
+    details: [
+      "Comprimido",
+      "Secado rápido",
+      "Transpirable",
+      "Antipilling"
+    ],
+    material: "Lycra / poliéster",
+    sizes: [
+      { size: "S", available: false },
+      { size: "M", available: true },
+      { size: "L", available: true },
+      { size: "XL", available: false },
+    ],
+  },
+
+  "comprension-larga-topwear-morada": {
+    id: "comprension-larga-topwear-morada",
+    name: "Camiseta De Comprensión Larga Morada",
+    price: 60.000,
+    image: "https://s.alicdn.com/@sc04/kf/Hd817733d5a3c4a1a8995f442508d6f92D.jpg",
+    gallery: [
+      "https://s.alicdn.com/@sc04/kf/Hd817733d5a3c4a1a8995f442508d6f92D.jpg"
+    ],
+    category: "topwear",
+    description: "Camiseta urbana con diseño gráfico abstracto que destaca por su estilo moderno y auténtico 🔥. Confeccionada en algodón premium, ofrece comodidad, transpirabilidad y alta durabilidad 💯. Ideal para elevar cualquier outfit streetwear con un toque distintivo 👕.",
+    details: [
+      "Comprimido",
+      "Secado rápido",
+      "Transpirable",
+      "Antipilling"
+    ],
+    material: "Lycra / poliéster",
+    sizes: [
+      { size: "S", available: false },
+      { size: "M", available: true },
+      { size: "L", available: true },
+      { size: "XL", available: false },
+    ],
+  },
+
+  "comprension-larga-topwear-gris": {
+    id: "comprension-larga-topwear-gris",
+    name: "Camiseta De Comprensión Larga Gris",
+    price: 60.000,
+    image: "https://s.alicdn.com/@sc04/kf/H6697fc93c9e74d09b093f981be0ee1d6q.jpg",
+    gallery: [
+      "https://s.alicdn.com/@sc04/kf/H6697fc93c9e74d09b093f981be0ee1d6q.jpg"
+    ],
+    category: "topwear",
+    description: "Camiseta urbana con diseño gráfico abstracto que destaca por su estilo moderno y auténtico 🔥. Confeccionada en algodón premium, ofrece comodidad, transpirabilidad y alta durabilidad 💯. Ideal para elevar cualquier outfit streetwear con un toque distintivo 👕.",
+    details: [
+      "Comprimido",
+      "Secado rápido",
+      "Transpirable",
+      "Antipilling"
+    ],
+    material: "Lycra / poliéster",
+    sizes: [
+      { size: "S", available: false },
+      { size: "M", available: true },
+      { size: "L", available: true },
+      { size: "XL", available: false },
+    ],
+  },
+
+  "comprension-corta-topwear-negra": {
+    id: "comprension-corta-topwear-negra",
+    name: "Camiseta De Comprensión Corta Negra",
+    price: 40.000,
+    image: "https://s.alicdn.com/@sc04/kf/Hd19af76ae3c5410b982b1f8be4a0e32do.jpg",
+    gallery: [
+      "https://s.alicdn.com/@sc04/kf/Hd19af76ae3c5410b982b1f8be4a0e32do.jpg"
+    ],
+    category: "topwear",
+    description: "Camiseta urbana con diseño gráfico abstracto que destaca por su estilo moderno y auténtico 🔥. Confeccionada en algodón premium, ofrece comodidad, transpirabilidad y alta durabilidad 💯. Ideal para elevar cualquier outfit streetwear con un toque distintivo 👕.",
+    details: [
+      "Comprimido",
+      "Secado rápido",
+      "Transpirable",
+      "Antipilling"
+    ],
+    material: "Lycra / poliéster",
+    sizes: [
+      { size: "S", available: false },
+      { size: "M", available: false },
+      { size: "L", available: true },
+      { size: "XL", available: false },
+    ],
+  },
+  
+  "comprension-corta-topwear-roja": {
+    id: "comprension-corta-topwear-roja",
+    name: "Camiseta De Comprensión Corta Roja",
+    price: 40.000,
+    image: "https://s.alicdn.com/@sc04/kf/H082de8e4f8c94b95a28a809ab974b618L.jpg",
+    gallery: [
+      "https://s.alicdn.com/@sc04/kf/H082de8e4f8c94b95a28a809ab974b618L.jpg"
+    ],
+    category: "topwear",
+    description: "Camiseta urbana con diseño gráfico abstracto que destaca por su estilo moderno y auténtico 🔥. Confeccionada en algodón premium, ofrece comodidad, transpirabilidad y alta durabilidad 💯. Ideal para elevar cualquier outfit streetwear con un toque distintivo 👕.",
+    details: [
+      "Comprimido",
+      "Secado rápido",
+      "Transpirable",
+      "Antipilling"
+    ],
+    material: "Lycra / poliéster",
+    sizes: [
+      { size: "S", available: false },
+      { size: "M", available: false },
+      { size: "L", available: true },
+      { size: "XL", available: false },
+    ],
+  },
+
+   "comprension-corta-topwear-morada": {
+    id: "comprension-corta-topwear-morada",
+    name: "Camiseta De Comprensión Corta Morada",
+    price: 40.000,
+    image: "https://s.alicdn.com/@sc04/kf/H7898814c54a44d3d8f9a94ff755a82fdR.jpg",
+    gallery: [
+        "https://s.alicdn.com/@sc04/kf/H082de8e4f8c94b95a28a809ab974b618L.jpg"
+      ],
+    category: "topwear",
+    description: "Camiseta urbana con diseño gráfico abstracto que destaca por su estilo moderno y auténtico 🔥. Confeccionada en algodón premium, ofrece comodidad, transpirabilidad y alta durabilidad 💯. Ideal para elevar cualquier outfit streetwear con un toque distintivo 👕.",
+    details: [
+      "Comprimido",
+      "Secado rápido",
+      "Transpirable",
+      "Antipilling"
+    ],
+    material: "Lycra / poliéster",
+    sizes: [
+      { size: "S", available: false },
+      { size: "M", available: false },
+      { size: "L", available: true },
+      { size: "XL", available: false },
+    ],
+  },
+
+   "comprension-corta-topwear-azul": {
+    id: "comprension-corta-topwear-azul",
+    name: "Camiseta De Comprensión Corta Azul",
+    price: 40.000,
+    image: "https://s.alicdn.com/@sc04/kf/H48c4913f33404ff2af3b7dad0398cf6e3.jpg",
+    gallery: [
+        "https://s.alicdn.com/@sc04/kf/H48c4913f33404ff2af3b7dad0398cf6e3.jpg"
+      ],
+    category: "topwear",
+    description: "Camiseta urbana con diseño gráfico abstracto que destaca por su estilo moderno y auténtico 🔥. Confeccionada en algodón premium, ofrece comodidad, transpirabilidad y alta durabilidad 💯. Ideal para elevar cualquier outfit streetwear con un toque distintivo 👕.",
+    details: [
+      "Comprimido",
+      "Secado rápido",
+      "Transpirable",
+      "Antipilling"
+    ],
+    material: "Lycra / poliéster",
+    sizes: [
+      { size: "S", available: false },
+      { size: "M", available: false },
+      { size: "L", available: true },
+      { size: "XL", available: false },
+    ],
+  },
+  "comprension-corta-topwear-blanca-negra": {
+    id: "comprension-corta-topwear-blanca-negra",
+    name: "Camiseta De Comprensión Corta Blanca/Negra",
+    price: 40.000,
+    image: "https://s.alicdn.com/@sc04/kf/Hc2508865d54141dd90f9f19ed460e2edn.jpg",
+    gallery: [
+        "https://s.alicdn.com/@sc04/kf/Hc2508865d54141dd90f9f19ed460e2edn.jpg"
+      ],
+    category: "topwear",
+    description: "Camiseta urbana con diseño gráfico abstracto que destaca por su estilo moderno y auténtico 🔥. Confeccionada en algodón premium, ofrece comodidad, transpirabilidad y alta durabilidad 💯. Ideal para elevar cualquier outfit streetwear con un toque distintivo 👕.",
+    details: [
+      "Comprimido",
+      "Secado rápido",
+      "Transpirable",
+      "Antipilling"
+    ],
+    material: "Lycra / poliéster",
+    sizes: [
+      { size: "S", available: false },
+      { size: "M", available: false },
+      { size: "L", available: true },
+      { size: "XL", available: false },
+    ],
+  },
+  "comprension-corta-topwear-blanca-roja": {
+    id: "comprension-corta-topwear-blanca-roja",
+    name: "Camiseta De Comprensión Corta Blanca/Roja",
+    price: 40.000,
+    image: "https://s.alicdn.com/@sc04/kf/Hef0106d536cf4c5cb81d5d68a83b53205.jpg",
+    gallery: [
+        "https://s.alicdn.com/@sc04/kf/Hef0106d536cf4c5cb81d5d68a83b53205.jpg"
+      ],
+    category: "topwear",
+    description: "Camiseta urbana con diseño gráfico abstracto que destaca por su estilo moderno y auténtico 🔥. Confeccionada en algodón premium, ofrece comodidad, transpirabilidad y alta durabilidad 💯. Ideal para elevar cualquier outfit streetwear con un toque distintivo 👕.",
+    details: [
+      "Comprimido",
+      "Secado rápido",
+      "Transpirable",
+      "Antipilling"
+    ],
+    material: "Lycra / poliéster",
+    sizes: [
+      { size: "S", available: false },
+      { size: "M", available: false },
+      { size: "L", available: true },
+      { size: "XL", available: false },
+    ],
+  },
+
+  "example-topwear": {
+    id: "example-topwear",
+    name: "Nombre del producto",
+    price: 0,
+    image: "/images/product.jpg",
+    gallery: [
+      "/images/product.jpg",
+      "/images/product.jpg",
+      "/images/product.jpg",
+    ],
+    category: "topwear",
+    description: "Descripción del producto.",
+    details: [
+      "Detalle 1",
+      "Detalle 2",
+      "Detalle 3",
+    ],
+    material: "Material del producto",
+    sizes: [
       { size: "S", available: true },
       { size: "M", available: true },
       { size: "L", available: true },
-      { size: "XL", available: true },
-      { size: "XXL", available: false },
+      { size: "XL", available: false },                                                           
     ],
   },
 
-  "bomber-jacket-night": {
-    id: "bomber-jacket-night",
-    name: "Bomber Night",
-    price: 129.99,
-    image: "/images/product-jacket.jpg",
+  // 🔥 EJEMPLO BOTTOMWEAR
+  "pantalon-bottomwear-blanco": {
+    id: "pantalon-bottomwear-blanco",
+    name: "Pantalón Cargo Blanco",
+    price: 80.000,
+    image: "https://s.alicdn.com/@sc04/kf/Hb1f8a0ffba274e64aa14a01ace3f9739J.jpg",
     gallery: [
-      "/images/product-jacket.jpg",
-      "/images/product-jacket.jpg",
-      "/images/product-jacket.jpg",
-      "/images/product-jacket.jpg",
+      "https://s.alicdn.com/@sc04/kf/Hb1f8a0ffba274e64aa14a01ace3f9739J.jpg"
     ],
-    category: "Chaquetas",
-    description:
-      "Chaqueta bomber clasica con acabado mate premium. Perfecta para las noches urbanas.",
+    category: "bottomwear",
+    description: "Pantalón urbano de corte wide-leg con diseño gráfico en alto contraste que eleva cualquier outfit street. 🖤🔥 Su ajuste relajado brinda comodidad total, mientras que los estampados le dan una vibra agresiva y moderna. Perfecto para destacar con estilo y actitud. ⚡",
     details: [
-      "Exterior: Nylon Premium",
-      "Forro: Poliester suave",
-      "Cremallera YKK",
-      "Punos y cintura elasticos",
-      "Lavado en seco recomendado",
+      "Detalle 1",
+      "Detalle 2",
     ],
-    material: "Nylon Premium / Poliester",
+    material: "100% poliéster",
     sizes: [
-      { size: "XS", available: true },
       { size: "S", available: true },
-      { size: "M", available: false },
+      { size: "M", available: true },
       { size: "L", available: true },
-      { size: "XL", available: true },
-      { size: "XXL", available: true },
     ],
   },
-}
 
+  // 🔥 EJEMPLO CONJUNTO
+  "example-conjunto": {
+    id: "example-conjunto",
+    name: "Nombre del conjunto",
+    price: 0,
+    image: "/images/product.jpg",
+    gallery: [
+      "/images/product.jpg",
+      "/images/product.jpg",
+      "/images/product.jpg",
+    ],
+    category: "conjuntos",
+    description: "Descripción del conjunto.",
+    details: [
+      "Incluye hoodie + pantalón",
+      "Tela premium",
+    ],
+    material: "Algodón / Poliéster",
+    sizes: [
+      { size: "S", available: true },
+      { size: "M", available: true },
+      { size: "L", available: true },
+    ],
+  },
+};
+
+// 🔥 LISTA GENERAL
 export const allProducts = Object.values(products).map(
   ({ id, name, price, image, category }) => ({
     id,
@@ -245,4 +372,9 @@ export const allProducts = Object.values(products).map(
     image,
     category,
   })
-)
+);
+
+// 🔥 HELPER
+export function getProductById(id: string) {
+  return products[id];
+}

@@ -44,9 +44,9 @@ export function Header() {
             <nav className="hidden md:flex items-center gap-8">
               {[
                 { name: "Inicio", href: "/" },
-                { name: "Hoodies", href: "/categoria/hoodies" },
-                { name: "Pantalones", href: "/categoria/pantalones" },
-                { name: "Camisas", href: "/categoria/camisas" },
+                { name: "Conjuntos", href: "/categoria/conjuntos" },
+                { name: "Bottomwear", href: "/categoria/bottomwear" },
+                { name: "Topwear", href: "/categoria/topwear" },
                 { name: "Nosotros", href: "/nosotros" },
               ].map((item) => (
                 <Link

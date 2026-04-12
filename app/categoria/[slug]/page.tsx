@@ -17,8 +17,8 @@ const categories: Record<string, {
     category: string
   }>
 }> = {
-  hoodies: {
-    name: "Hoodies",
+  conjuntos: {
+    name: "conjuntos",
     description: "Hoodies oversized premium para los que dominan las calles. Comodidad y estilo sin compromisos.",
     heroImage: "/images/category-hoodies.jpg",
     products: [
@@ -30,8 +30,8 @@ const categories: Record<string, {
       { id: "hoodie-minimal", name: "Hoodie Minimal", price: 85.99, image: "/images/product-hoodie.jpg", category: "Hoodies" },
     ]
   },
-  pantalones: {
-    name: "Pantalones",
+  bottomwear: {
+    name: "bottomwear",
     description: "Cargo pants y joggers disenados para el movimiento urbano. Funcionalidad y actitud en cada costura.",
     heroImage: "/images/category-pants.jpg",
     products: [
@@ -43,8 +43,8 @@ const categories: Record<string, {
       { id: "jogger-essential", name: "Jogger Essential", price: 65.99, image: "/images/product-pants.jpg", category: "Pantalones" },
     ]
   },
-  camisas: {
-    name: "Camisas",
+  topwear: {
+    name: "topwear",
     description: "Camisetas y camisas que hacen statement. Cortes limpios, mensajes directos, actitud pura.",
     heroImage: "/images/category-shirts.jpg",
     products: [
