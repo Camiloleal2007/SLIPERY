@@ -9,7 +9,7 @@ import {
   Search,
   User,
 } from "lucide-react";
-import { FoxLogo } from "./fox-logo";
+import { FoxLogo } from "./fox-logoo";
 import { useCart } from "@/components/CartContext";
 
 export function Header() {
@@ -18,8 +18,8 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
-      {/* Iluminación superior */}
-      <div className="pointer-events-none absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-red-600/40 via-red-500/20 to-transparent blur-xl" />
+     {/* Iluminación superior */}
+     <div className="pointer-events-none absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-white/40 via-white/20 to-transparent blur-xl" />
 
       <div className="relative bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container mx-auto px-4">
@@ -37,10 +37,7 @@ export function Header() {
 
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2">
-              <FoxLogo className="w-8 h-8 text-gold drop-shadow-[0_0_6px_rgba(255,0,0,0.4)]" />
-              <span className="font-[family-name:var(--font-display)] text-xl md:text-2xl font-bold tracking-[0.2em]">
-                SLIPERY
-              </span>
+              <FoxLogo className="w-28 md:w-40 h-auto text-gold drop-shadow-[0_0_6px_rgba(255,255,255,0.6)]" />
             </Link>
 
             {/* Desktop nav */}

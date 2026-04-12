@@ -11,7 +11,7 @@ export function HeroSection() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
-          src="/images/hero-model.jpg"
+          src="/images/hero-model.png"
           alt="SLIPERY Streetwear"
           fill
           className="object-cover"
@@ -37,15 +37,16 @@ export function HeroSection() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
             <Button
-              asChild
-              size="lg"
-              className="bg-gold hover:bg-gold-dark text-background font-semibold tracking-widest uppercase px-8"
-            >
-              <Link href="/tienda">
-                Explorar Coleccion
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Link>
-            </Button>
+  asChild
+  size="lg"
+  className="bg-gold hover:bg-gold-dark text-background hover:text-[ok
+  lch(0.85_0.12_85)] font-semibold tracking-widest uppercase px-8 transition-colors duration-300"
+>
+  <Link href="/tienda">
+    Explorar Coleccion
+    <ArrowRight className="w-4 h-4 ml-2" />
+  </Link>
+</Button>
             <Button
               asChild
               variant="outline"

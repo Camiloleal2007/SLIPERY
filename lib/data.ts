@@ -10,16 +10,14 @@ export type Product = {
   description: string
   details: string[]
   material: string
-  fit: string
-  style: string
   sizes: { size: string; available: boolean }[]
 }
 
 export const products: Record<string, Product> = {
-  "hoodie-oversized-black": {
-    id: "hoodie-oversized-black",
-    name: "Hoodie Oversized",
-    price: 89.99,
+  "hoodie-nike-tech-fleece-stussy": {
+    id: "hoodie-nike-tech-fleece-stussy",
+    name: "Nike Tech Fleece x Stüssy Hoodie",
+    price: 38000,
     image: "/images/product-hoodie.jpg",
     gallery: [
       "/images/product-hoodie.jpg",
@@ -38,28 +36,26 @@ export const products: Record<string, Product> = {
       "Lavado a maquina",
     ],
     material: "100% Algodon Organico Premium",
-    fit: "Oversized / Relaxed",
-    style: "Urban Streetwear",
     sizes: [
       { size: "XS", available: false },
-      { size: "S", available: true },
-      { size: "M", available: true },
+      { size: "S", available: false },
+      { size: "M", available: false },
       { size: "L", available: true },
       { size: "XL", available: false },
-      { size: "XXL", available: true },
+      { size: "XXL", available: false },
     ],
   },
 
-  "tshirt-essential-black": {
-    id: "tshirt-essential-black",
-    name: "Camiseta Essential",
-    price: 45.99,
-    image: "/images/product-tshirt.jpg",
+  "Valley-Dreams-tshirt": {
+    id: "Valley-Dreams-tshirt",
+    name: "Valley Dreams",
+    price: 18900,
+    image: "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.37.18_AM_fmplzh.jpg",
     gallery: [
-      "/images/product-tshirt.jpg",
-      "/images/product-tshirt.jpg",
-      "/images/product-tshirt.jpg",
-      "/images/product-tshirt.jpg",
+      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.37.18_AM_fmplzh.jpg",
+      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.37.18_AM_fmplzh.jpg",
+      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.37.18_AM_fmplzh.jpg",
+      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.37.18_AM_fmplzh.jpg",
     ],
     category: "Camisetas",
     description:
@@ -72,14 +68,106 @@ export const products: Record<string, Product> = {
       "Lavado a maquina",
     ],
     material: "100% Algodon Premium",
-    fit: "Regular / Relaxed",
-    style: "Essential Streetwear",
     sizes: [
-      { size: "XS", available: true },
+      { size: "XS", available: false },
       { size: "S", available: true },
+      { size: "M", available: false },
+      { size: "L", available: false },
+      { size: "XL", available: false },
+      { size: "XXL", available: false },
+    ],
+  },
+
+  "Jersey-Black-21": {
+    id: "Jersey-Black-21",
+    name: "Jersey Black 21",
+    price: 12000,
+    image: "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.38.46_AM_atsb26.jpg",
+    gallery: [
+      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.38.46_AM_atsb26.jpg",
+      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.38.46_AM_atsb26.jpg",
+      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.38.46_AM_atsb26.jpg",
+      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.38.46_AM_atsb26.jpg",
+    ],
+    category: "Camisetas",
+    description:
+      "Camiseta esencial de corte relajado con cuello redondo reforzado. El basico perfecto para cualquier outfit urbano.",
+    details: [
+      "100% Algodon Premium",
+      "Cuello reforzado",
+      "Costuras dobles",
+      "Etiqueta impresa",
+      "Lavado a maquina",
+    ],
+    material: "100% Algodon Premium",
+    sizes: [
+      { size: "XS", available: false },
+      { size: "S", available: false },
       { size: "M", available: true },
       { size: "L", available: false },
-      { size: "XL", available: true },
+      { size: "XL", available: false },
+      { size: "XXL", available: false },
+    ],
+  },
+  "Stussy-Polo-White": {
+    id: "Stussy-Polo-White",
+    name: "Stüssy Polo White",
+    price: 18900,
+    image: "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.39.29_AM_gdctrn.jpg",
+    gallery: [
+      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.39.29_AM_gdctrn.jpg",
+      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.39.29_AM_gdctrn.jpg",
+      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.39.29_AM_gdctrn.jpg",
+      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.39.29_AM_gdctrn.jpg",
+    ],
+    category: "Camisetas",
+    description:
+      "Camiseta esencial de corte relajado con cuello redondo reforzado. El basico perfecto para cualquier outfit urbano.",
+    details: [
+      "100% Algodon Premium",
+      "Cuello reforzado",
+      "Costuras dobles",
+      "Etiqueta impresa",
+      "Lavado a maquina",
+    ],
+    material: "100% Algodon Premium",
+    sizes: [
+      { size: "XS", available: false },
+      { size: "S", available: false },
+      { size: "M", available: false },
+      { size: "L", available: true },
+      { size: "XL", available: false },
+      { size: "XXL", available: false },
+    ],
+  },
+  "Stussy-Polo-Black": {
+    id: "Stussy-Polo-Black",
+    name: "Stüssy Polo Black",
+    price: 18900,
+    image: "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.40.13_AM_1_k95cin.jpg",
+    gallery: [
+      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.40.13_AM_1_k95cin.jpg",
+      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.40.13_AM_1_k95cin.jpg",
+      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.40.13_AM_1_k95cin.jpg",
+      "https://res.cloudinary.com/dks9ffhea/image/upload/v1769643691/WhatsApp_Image_2026-01-28_at_11.40.13_AM_1_k95cin.jpg",
+    ],
+    category: "Camisetas",
+    description:
+      "Camiseta esencial de corte relajado con cuello redondo reforzado. El basico perfecto para cualquier outfit urbano.",
+    details: [
+      "100% Algodon Premium",
+      "Cuello reforzado",
+      "Costuras dobles",
+      "Etiqueta impresa",
+      "Lavado a maquina",
+    ],
+    material: "100% Algodon Premium",
+    sizes: [
+      { size: "XS", available: false },
+      { size: "S", available: false },
+      { size: "M", available: false },
+      { size: "L", available: true },
+      { size: "XL", available: false },
       { size: "XXL", available: false },
     ],
   },
@@ -106,8 +194,6 @@ export const products: Record<string, Product> = {
       "Lavado a maquina",
     ],
     material: "98% Algodon, 2% Elastano",
-    fit: "Relaxed Tapered",
-    style: "Urban Cargo",
     sizes: [
       { size: "XS", available: false },
       { size: "S", available: true },
@@ -140,8 +226,6 @@ export const products: Record<string, Product> = {
       "Lavado en seco recomendado",
     ],
     material: "Nylon Premium / Poliester",
-    fit: "Regular",
-    style: "Night Bomber",
     sizes: [
       { size: "XS", available: true },
       { size: "S", available: true },
