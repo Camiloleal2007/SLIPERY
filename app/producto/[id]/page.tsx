@@ -18,13 +18,18 @@ import {
   RotateCcw,
   Shield,
 } from "lucide-react";
-import { products, allProducts } from "@/lib/data";
 
+import { products, getProductById } from "@/lib/data";
+
+// 🔥 CAROUSEL
 function InfiniteCarousel({ currentProductId }: { currentProductId: string }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = useState(false);
 
-  const filteredProducts = allProducts.filter((p) => p.id !== currentProductId);
+  const filteredProducts = products.filter(
+    (p) => p.id !== currentProductId
+  );
+
   const duplicatedProducts = [
     ...filteredProducts,
     ...filteredProducts,
@@ -74,12 +79,15 @@ function InfiniteCarousel({ currentProductId }: { currentProductId: string }) {
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
             </div>
+
             <p className="text-sm text-muted-foreground uppercase tracking-widest">
               {product.category}
             </p>
+
             <h3 className="font-semibold group-hover:text-gold transition-colors">
               {product.name}
             </h3>
+
             <p>${product.price.toLocaleString()} COP</p>
           </Link>
         ))}
@@ -88,15 +96,17 @@ function InfiniteCarousel({ currentProductId }: { currentProductId: string }) {
   );
 }
 
+// 🔥 PAGE
 export default function ProductPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
-  const product = products[id];
 
-  // 🚨 VALIDACIÓN PRO
+  // ✅ AHORA SÍ CORRECTO
+  const product = getProductById(id);
+
   if (!product) {
     return (
       <main className="min-h-screen flex items-center justify-center text-white">
@@ -109,6 +119,7 @@ export default function ProductPage({
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [showModal, setShowModal] = useState(false);
+
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {
@@ -119,7 +130,7 @@ export default function ProductPage({
       name: product.name,
       price: product.price,
       size: selectedSize,
-      quantity: quantity,
+      quantity,
       image: product.image,
     });
 
@@ -156,7 +167,9 @@ export default function ProductPage({
                   key={idx}
                   onClick={() => setSelectedImage(idx)}
                   className={`border-2 ${
-                    selectedImage === idx ? "border-gold" : "border-transparent"
+                    selectedImage === idx
+                      ? "border-gold"
+                      : "border-transparent"
                   }`}
                 >
                   <Image src={img} alt="" width={200} height={200} />
@@ -170,14 +183,34 @@ export default function ProductPage({
             <p className="text-gold uppercase tracking-widest">
               {product.category}
             </p>
+
             <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
+
             <p className="text-3xl mb-6">
               ${product.price.toLocaleString()} COP
             </p>
 
-            <p className="text-muted-foreground mb-8">
+            <p className="text-muted-foreground mb-6">
               {product.description}
             </p>
+
+            {/* MATERIAL */}
+            <div className="mb-4">
+              <p className="uppercase text-xs tracking-widest text-muted-foreground">
+                Material
+              </p>
+              <p>{product.material}</p>
+            </div>
+
+            {/* DETALLES */}
+            <ul className="mb-8 space-y-2 text-sm text-muted-foreground">
+              {product.details.map((detail, idx) => (
+                <li key={idx} className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 bg-gold rounded-full" />
+                  {detail}
+                </li>
+              ))}
+            </ul>
 
             {/* TALLAS */}
             <div className="flex gap-3 mb-8">
@@ -186,7 +219,7 @@ export default function ProductPage({
                   key={size}
                   disabled={!available}
                   onClick={() => available && setSelectedSize(size)}
-                  className={`relative w-14 h-14 border transition-all duration-300
+                  className={`relative w-14 h-14 border transition-all
                     ${
                       !available
                         ? "opacity-40 cursor-not-allowed"
@@ -210,9 +243,7 @@ export default function ProductPage({
             {/* CANTIDAD */}
             <div className="flex items-center mb-8">
               <button
-                onClick={() =>
-                  setQuantity((q) => Math.max(1, q - 1))
-                }
+                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                 className="p-2 hover:bg-secondary rounded-full"
               >
                 <Minus />
@@ -260,9 +291,7 @@ export default function ProductPage({
             <div className="mt-8 pt-8 border-t border-border space-y-4">
               <div className="flex items-center gap-3">
                 <Truck className="w-5 h-5 text-gold" />
-                <span className="text-sm">
-                  Envío gratis en Colombia
-                </span>
+                <span className="text-sm">Envío gratis en Colombia</span>
               </div>
 
               <div className="flex items-center gap-3">
@@ -274,9 +303,7 @@ export default function ProductPage({
 
               <div className="flex items-center gap-3">
                 <Shield className="w-5 h-5 text-gold" />
-                <span className="text-sm">
-                  Pago seguro
-                </span>
+                <span className="text-sm">Pago seguro</span>
               </div>
             </div>
           </div>

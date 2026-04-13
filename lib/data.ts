@@ -13,9 +13,10 @@ export type Product = {
   sizes: { size: string; available: boolean }[];
 };
 
-export const products: Record<string, Product> = {
+// 🔥 BASE DE DATOS PRINCIPAL (UNA SOLA LISTA)
+export const products: Product[] = [
   // 🔥 EJEMPLO TOPWEAR
-  "comprension-larga-topwear-negra": {
+  {
     id: "comprension-larga-topwear-negra",
     name: "Camiseta De Comprensión Larga Negra",
     price: 60.000,
@@ -40,7 +41,7 @@ export const products: Record<string, Product> = {
     ],
   },
 
-  "comprension-larga-topwear-azul": {
+  {
     id: "comprension-larga-topwear-azul",
     name: "Camiseta De Comprensión Larga Azul",
     price: 60.000,
@@ -65,7 +66,7 @@ export const products: Record<string, Product> = {
     ],
   },
 
-  "comprension-larga-topwear-blanca": {
+  {
     id: "comprension-larga-topwear-blanca",
     name: "Camiseta De Comprensión Larga Blanca",
     price: 60.000,
@@ -90,7 +91,7 @@ export const products: Record<string, Product> = {
     ],
   },
 
-  "comprension-larga-topwear-morada": {
+  {
     id: "comprension-larga-topwear-morada",
     name: "Camiseta De Comprensión Larga Morada",
     price: 60.000,
@@ -115,7 +116,7 @@ export const products: Record<string, Product> = {
     ],
   },
 
-  "comprension-larga-topwear-gris": {
+  {
     id: "comprension-larga-topwear-gris",
     name: "Camiseta De Comprensión Larga Gris",
     price: 60.000,
@@ -140,7 +141,7 @@ export const products: Record<string, Product> = {
     ],
   },
 
-  "comprension-corta-topwear-negra": {
+  {
     id: "comprension-corta-topwear-negra",
     name: "Camiseta De Comprensión Corta Negra",
     price: 40.000,
@@ -165,7 +166,7 @@ export const products: Record<string, Product> = {
     ],
   },
   
-  "comprension-corta-topwear-roja": {
+  {
     id: "comprension-corta-topwear-roja",
     name: "Camiseta De Comprensión Corta Roja",
     price: 40.000,
@@ -190,7 +191,7 @@ export const products: Record<string, Product> = {
     ],
   },
 
-   "comprension-corta-topwear-morada": {
+    {
     id: "comprension-corta-topwear-morada",
     name: "Camiseta De Comprensión Corta Morada",
     price: 40.000,
@@ -215,7 +216,7 @@ export const products: Record<string, Product> = {
     ],
   },
 
-   "comprension-corta-topwear-azul": {
+    {
     id: "comprension-corta-topwear-azul",
     name: "Camiseta De Comprensión Corta Azul",
     price: 40.000,
@@ -239,7 +240,7 @@ export const products: Record<string, Product> = {
       { size: "XL", available: false },
     ],
   },
-  "comprension-corta-topwear-blanca-negra": {
+  {
     id: "comprension-corta-topwear-blanca-negra",
     name: "Camiseta De Comprensión Corta Blanca/Negra",
     price: 40.000,
@@ -263,7 +264,7 @@ export const products: Record<string, Product> = {
       { size: "XL", available: false },
     ],
   },
-  "comprension-corta-topwear-blanca-roja": {
+  {
     id: "comprension-corta-topwear-blanca-roja",
     name: "Camiseta De Comprensión Corta Blanca/Roja",
     price: 40.000,
@@ -288,34 +289,8 @@ export const products: Record<string, Product> = {
     ],
   },
 
-  "example-topwear": {
-    id: "example-topwear",
-    name: "Nombre del producto",
-    price: 0,
-    image: "/images/product.jpg",
-    gallery: [
-      "/images/product.jpg",
-      "/images/product.jpg",
-      "/images/product.jpg",
-    ],
-    category: "topwear",
-    description: "Descripción del producto.",
-    details: [
-      "Detalle 1",
-      "Detalle 2",
-      "Detalle 3",
-    ],
-    material: "Material del producto",
-    sizes: [
-      { size: "S", available: true },
-      { size: "M", available: true },
-      { size: "L", available: true },
-      { size: "XL", available: false },                                                           
-    ],
-  },
-
   // 🔥 EJEMPLO BOTTOMWEAR
-  "pantalon-bottomwear-blanco": {
+  {
     id: "pantalon-bottomwear-blanco",
     name: "Pantalón Cargo Blanco",
     price: 80.000,
@@ -326,55 +301,119 @@ export const products: Record<string, Product> = {
     category: "bottomwear",
     description: "Pantalón urbano de corte wide-leg con diseño gráfico en alto contraste que eleva cualquier outfit street. 🖤🔥 Su ajuste relajado brinda comodidad total, mientras que los estampados le dan una vibra agresiva y moderna. Perfecto para destacar con estilo y actitud. ⚡",
     details: [
-      "Detalle 1",
-      "Detalle 2",
+      "100% poliéster",
+      "Cintura elástica con cordón",
     ],
     material: "100% poliéster",
     sizes: [
-      { size: "S", available: true },
-      { size: "M", available: true },
+      { size: "S", available: false },
+      { size: "M", available: false
+       },
+      { size: "L", available: true },
+    ],
+  },
+
+  {
+    id: "pantalon-bottomwear-negro",
+    name: "Pantalón Cargo Negro",
+    price: 80.000,
+    image: "https://s.alicdn.com/@sc04/kf/H082f063d6547432bbdd98b1d4825f7d86.jpg",
+    gallery: [
+      "https://s.alicdn.com/@sc04/kf/H082f063d6547432bbdd98b1d4825f7d86.jpg"
+    ],
+    category: "bottomwear",
+    description: "Pantalón urbano de corte wide-leg con diseño gráfico en alto contraste que eleva cualquier outfit street. 🖤🔥 Su ajuste relajado brinda comodidad total, mientras que los estampados le dan una vibra agresiva y moderna. Perfecto para destacar con estilo y actitud. ⚡",
+    details: [
+      "100% poliéster",
+      "Cintura elástica con cordón",
+    ],
+    material: "100% poliéster",
+    sizes: [
+      { size: "S", available: false },
+      { size: "M", available: false },
+      { size: "L", available: true },
+    ],
+  },
+
+  
+  {
+    id: "pantalon-bottomwear-gris",
+    name: "Pantalón Cargo Gris",
+    price: 80.000,
+    image: "https://s.alicdn.com/@sc04/kf/Hb96361e4e0c34a8997ac36b01ad50b00e.jpg",
+    gallery: [
+      "https://s.alicdn.com/@sc04/kf/Hb96361e4e0c34a8997ac36b01ad50b00e.jpg"
+    ],
+    category: "bottomwear",
+    description: "Pantalón urbano de corte wide-leg con diseño gráfico en alto contraste que eleva cualquier outfit street. 🖤🔥 Su ajuste relajado brinda comodidad total, mientras que los estampados le dan una vibra agresiva y moderna. Perfecto para destacar con estilo y actitud. ⚡",
+    details: [
+      "100% poliéster",
+      "Cintura elástica con cordón",
+    ],
+    material: "100% poliéster",
+    sizes: [
+      { size: "S", available: false },
+      { size: "M", available: false },
       { size: "L", available: true },
     ],
   },
 
   // 🔥 EJEMPLO CONJUNTO
-  "example-conjunto": {
-    id: "example-conjunto",
-    name: "Nombre del conjunto",
-    price: 0,
-    image: "/images/product.jpg",
+  {
+    id: "conjunto-joggers-blanco",
+    name: "Conjunto Joggers Blanco",
+    price: 120.000,
+    image: "https://s.alicdn.com/@sc04/kf/Ha1739e2f831948719700ea60126fa9a2F.jpg",
     gallery: [
-      "/images/product.jpg",
-      "/images/product.jpg",
-      "/images/product.jpg",
+      "https://s.alicdn.com/@sc04/kf/Ha1739e2f831948719700ea60126fa9a2F.jpg",
     ],
     category: "conjuntos",
-    description: "Descripción del conjunto.",
+    description: "Conjunto personalizado de joggers a rayas para hombre; traje deportivo casual para jóvenes, estampado por sublimación; apto para primavera, otoño, verano e invierno.",
     details: [
       "Incluye hoodie + pantalón",
       "Tela premium",
     ],
     material: "Algodón / Poliéster",
     sizes: [
-      { size: "S", available: true },
+      { size: "S", available: false },
       { size: "M", available: true },
       { size: "L", available: true },
     ],
   },
-};
 
-// 🔥 LISTA GENERAL
-export const allProducts = Object.values(products).map(
-  ({ id, name, price, image, category }) => ({
-    id,
-    name,
-    price,
-    image,
-    category,
-  })
-);
+  {
+    id: "conjunto-joggers-negro",
+    name: "Conjunto Joggers Negro",
+    price: 120.000,
+    image: "https://s.alicdn.com/@sc04/kf/H461738ff8e8041e78496ff479d1fe463x.jpg",
+    gallery: [
+      "https://s.alicdn.com/@sc04/kf/H461738ff8e8041e78496ff479d1fe463x.jpg",
+    ],
+    category: "conjuntos",
+    description: "Conjunto personalizado de joggers a rayas para hombre; traje deportivo casual para jóvenes, estampado por sublimación; apto para primavera, otoño, verano e invierno.",
+    details: [
+      "Incluye hoodie + pantalón",
+      "Tela premium",
+    ],
+    material: "Algodón / Poliéster",
+    sizes: [
+      { size: "S", available: false },
+      { size: "M", available: true },
+      { size: "L", available: true },
+    ],
+  },
+];
 
-// 🔥 HELPER
+
+// 🔥 HELPERS (CLAVE PARA TU PROYECTO)
+
+// Buscar producto por ID (para página de producto)
 export function getProductById(id: string) {
-  return products[id];
+  return products.find((p) => p.id === id) || null;
 }
+
+// Filtrar por categoría (para páginas tipo /topwear /bottomwear)
+export function getProductsByCategory(category: Product["category"]) {
+  return products.filter((p) => p.category === category);
+}
+export const allProducts = Object.values(products);
