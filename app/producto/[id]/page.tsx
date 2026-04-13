@@ -26,9 +26,7 @@ function InfiniteCarousel({ currentProductId }: { currentProductId: string }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = useState(false);
 
-  const filteredProducts = products.filter(
-    (p) => p.id !== currentProductId
-  );
+  const filteredProducts = products.filter((p) => p.id !== currentProductId);
 
   const duplicatedProducts = [
     ...filteredProducts,
@@ -167,9 +165,7 @@ export default function ProductPage({
                   key={idx}
                   onClick={() => setSelectedImage(idx)}
                   className={`border-2 ${
-                    selectedImage === idx
-                      ? "border-gold"
-                      : "border-transparent"
+                    selectedImage === idx ? "border-gold" : "border-transparent"
                   }`}
                 >
                   <Image src={img} alt="" width={200} height={200} />
@@ -184,15 +180,20 @@ export default function ProductPage({
               {product.category}
             </p>
 
-            <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
+            <h1 className="font-[family-name:var(--font-display)] text-4xl font-bold mb-4 tracking-wide uppercase">
+              {product.name}
+            </h1>
 
-            <p className="text-3xl mb-6">
-              ${product.price.toLocaleString()} COP
+            <p className="font-[family-name:var(--font-display)] text-3xl font-bold text-gold  tracking-wide mb-6">
+              {new Intl.NumberFormat("es-CO", {
+                style: "currency",
+                currency: "COP",
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              }).format(product.price)} COP
             </p>
 
-            <p className="text-muted-foreground mb-6">
-              {product.description}
-            </p>
+            <p className="text-muted-foreground mb-6">{product.description}</p>
 
             {/* MATERIAL */}
             <div className="mb-4">
@@ -224,8 +225,8 @@ export default function ProductPage({
                       !available
                         ? "opacity-40 cursor-not-allowed"
                         : selectedSize === size
-                        ? "bg-gold text-black"
-                        : ""
+                          ? "bg-gold text-black"
+                          : ""
                     }
                   `}
                 >
@@ -273,9 +274,7 @@ export default function ProductPage({
                 }
               `}
             >
-              {selectedSize
-                ? "Agregar al carrito"
-                : "Selecciona una talla"}
+              {selectedSize ? "Agregar al carrito" : "Selecciona una talla"}
             </Button>
 
             {/* FAVORITOS */}
@@ -296,9 +295,7 @@ export default function ProductPage({
 
               <div className="flex items-center gap-3">
                 <RotateCcw className="w-5 h-5 text-gold" />
-                <span className="text-sm">
-                  Devoluciones hasta 7 días
-                </span>
+                <span className="text-sm">Devoluciones hasta 7 días</span>
               </div>
 
               <div className="flex items-center gap-3">

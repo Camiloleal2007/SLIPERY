@@ -1,38 +1,38 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { FoxLogo } from "./fox-logo"
+import { useState, useEffect } from "react";
+import { FoxLogo } from "./fox-logo";
 
 interface LoadingScreenProps {
-  onComplete: () => void
+  onComplete: () => void;
 }
 
 export function LoadingScreen({ onComplete }: LoadingScreenProps) {
-  const [phase, setPhase] = useState<"loading" | "reveal" | "exit">("loading")
+  const [phase, setPhase] = useState<"loading" | "reveal" | "exit">("loading");
 
   useEffect(() => {
     const loadingTimer = setTimeout(() => {
-      setPhase("reveal")
-    }, 1500)
+      setPhase("reveal");
+    }, 1500);
 
-    return () => clearTimeout(loadingTimer)
-  }, [])
+    return () => clearTimeout(loadingTimer);
+  }, []);
 
   useEffect(() => {
     if (phase === "reveal") {
       const revealTimer = setTimeout(() => {
-        setPhase("exit")
-      }, 1200)
-      return () => clearTimeout(revealTimer)
+        setPhase("exit");
+      }, 1200);
+      return () => clearTimeout(revealTimer);
     }
-    
+
     if (phase === "exit") {
       const exitTimer = setTimeout(() => {
-        onComplete()
-      }, 600)
-      return () => clearTimeout(exitTimer)
+        onComplete();
+      }, 600);
+      return () => clearTimeout(exitTimer);
     }
-  }, [phase, onComplete])
+  }, [phase, onComplete]);
 
   return (
     <div
@@ -41,7 +41,6 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
       }`}
     >
       <div className="flex items-center gap-4">
-        
         {/* Fox Logo */}
         <div
           className={`transition-all duration-700 ease-out ${
@@ -62,17 +61,20 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
         {/* Brand Name */}
         <div
           className={`overflow-hidden transition-all duration-700 ease-out ${
-            phase === "loading"
-              ? "w-0 opacity-0"
-              : "w-auto opacity-100"
+            phase === "loading" ? "w-0 opacity-0" : "w-auto opacity-100"
           }`}
         >
           <h1
-            className={`font-[family-name:var(--font-display)] text-4xl md:text-6xl font-bold tracking-[0.3em] text-foreground whitespace-nowrap transition-transform duration-700 ${
-              phase === "loading"
-                ? "-translate-x-full"
-                : "translate-x-0"
-            }`}
+            className={`
+    font-[family-name:var(--font-display)]
+    text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl
+    font-bold
+    tracking-[0.2em] md:tracking-[0.3em]
+    text-foreground
+    whitespace-nowrap md:whitespace-normal
+    transition-transform duration-700
+    ${phase === "loading" ? "-translate-x-full" : "translate-x-0"}
+  `}
           >
             PANDA URBAN
           </h1>
@@ -85,7 +87,10 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
           <div
             className="h-full bg-gradient-to-r from-white/40 via-white to-white/40 shadow-[0_0_10px_rgba(255,255,255,0.9)] transition-all duration-1500 ease-out"
             style={{
-              animation: phase === "loading" ? "loadingBar 1.5s ease-out forwards" : "none"
+              animation:
+                phase === "loading"
+                  ? "loadingBar 1.5s ease-out forwards"
+                  : "none",
             }}
           />
         </div>
@@ -102,5 +107,5 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
         }
       `}</style>
     </div>
-  )
+  );
 }

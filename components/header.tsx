@@ -2,13 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import {
-  Menu,
-  X,
-  ShoppingBag,
-  Search,
-  User,
-} from "lucide-react";
+import { Menu, X, ShoppingBag, Search, User } from "lucide-react";
 import { FoxLogo } from "./fox-logoo";
 import { useCart } from "@/components/CartContext";
 
@@ -18,13 +12,12 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
-     {/* Iluminación superior */}
-     <div className="pointer-events-none absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-white/40 via-white/20 to-transparent blur-xl" />
+      {/* Iluminación superior */}
+      <div className="pointer-events-none absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-white/40 via-white/20 to-transparent blur-xl" />
 
       <div className="relative bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16 md:h-20">
-
             {/* Mobile menu */}
             <button
               type="button"
@@ -32,7 +25,11 @@ export function Header() {
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label="Toggle menu"
             >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </button>
 
             {/* Logo */}
@@ -91,9 +88,9 @@ export function Header() {
               <div className="flex flex-col gap-4">
                 {[
                   { name: "Inicio", href: "/" },
-                  { name: "Hoodies", href: "/categoria/hoodies" },
-                  { name: "Pantalones", href: "/categoria/pantalones" },
-                  { name: "Camisas", href: "/categoria/camisas" },
+                  { name: "Conjuntos", href: "/categoria/conjuntos" },
+                  { name: "Bottomwear", href: "/categoria/bottomwear" },
+                  { name: "Topwear", href: "/categoria/topwear" },
                   { name: "Nosotros", href: "/nosotros" },
                 ].map((item) => (
                   <Link
