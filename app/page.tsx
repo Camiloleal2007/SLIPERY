@@ -10,7 +10,7 @@ export default function HomePage() {
 
   useEffect(() => {
     // Check if we've already shown the loading screen in this session
-    const hasLoaded = sessionStorage.getItem("slipery-loaded")
+    const hasLoaded = sessionStorage.getItem("leal-loaded")
     if (hasLoaded) {
       setIsLoading(false)
       setShowContent(true)
@@ -20,7 +20,7 @@ export default function HomePage() {
   const handleLoadingComplete = () => {
     setIsLoading(false)
     setShowContent(true)
-    sessionStorage.setItem("slipery-loaded", "true")
+    sessionStorage.setItem("leal-loaded", "true")
   }
 
   return (

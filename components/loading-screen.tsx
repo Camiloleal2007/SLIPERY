@@ -52,9 +52,14 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
           }`}
         >
           <FoxLogo
-            className={`w-16 md:w-24 h-auto text-gold drop-shadow-[0_0_10px_rgba(255,255,255,0.6)] transition-transform duration-700 ${
-              phase === "reveal" ? "translate-x-2" : ""
-            }`}
+            className={`w-16 md:w-24 h-auto text-gold 
+  drop-shadow-[0_0_10px_rgba(255,255,255,1)]
+  drop-shadow-[0_0_30px_rgba(255,255,255,0.9)]
+  drop-shadow-[0_0_60px_rgba(255,255,255,0.7)]
+  brightness-125
+  transition-transform duration-700 ${
+    phase === "loading" ? "animate-pulse scale-105" : ""
+  }`}
           />
         </div>
 
@@ -76,7 +81,7 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
     ${phase === "loading" ? "-translate-x-full" : "translate-x-0"}
   `}
           >
-            PANDA URBAN
+            L  E  A  L
           </h1>
         </div>
       </div>

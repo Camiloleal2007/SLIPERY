@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X, ShoppingBag, Search, User } from "lucide-react";
+import { Menu, X, ShoppingBag, Search, Heart } from "lucide-react";
 import { FoxLogo } from "./fox-logoo";
 import { useCart } from "@/components/CartContext";
 
@@ -63,7 +63,7 @@ export function Header() {
               </button>
 
               <button className="hidden md:block text-foreground hover:text-gold transition-colors">
-                <User className="w-5 h-5" />
+                <Heart className="w-5 h-5 hover:scale-110 transition-transform" />
               </button>
 
               {/* 🛒 Carrito */}

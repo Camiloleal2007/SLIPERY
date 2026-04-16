@@ -127,7 +127,7 @@ export function HomeContent() {
               </h2>
 
               <p className="text-muted-foreground text-lg mb-8 max-w-lg">
-                PANDA URBAN nació en las calles. Cada prenda es una declaración de identidad.
+                L  E  A  L nació en las calles. Cada prenda es una declaración de identidad.
               </p>
 
             </div>

@@ -12,7 +12,7 @@ const _inter = Inter({ subsets: ["latin"] });
 const _oswald = { variable: "--font-oswald" }; // Declared _oswald variable
 
 export const metadata: Metadata = {
-  title: 'SLIPERY | Streetwear Premium',
+  title: 'L E A L | Streetwear Premium',
   description: 'Streetwear sin reglas. Viste urbano. Viste real. Ropa urbana premium para los que no siguen tendencias.',
   generator: 'v0.app',
   icons: {
@@ -53,9 +53,9 @@ export default function RootLayout({
   
   <Image 
     src="/logo.png"
-    alt="SLIPERY logo"
-    width={160}
-    height={60}
+    alt="LEAL logo"
+    width={100}
+    height={100}
     priority
   />
 </header>

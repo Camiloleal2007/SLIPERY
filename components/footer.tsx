@@ -12,7 +12,7 @@ export function Footer() {
             <Link href="/" className="flex items-center gap-2 mb-4">
               <FoxLogo className="w-10 h-10 text-gold" />
               <span className="font-[family-name:var(--font-display)] text-2xl font-bold tracking-[0.2em] text-foreground">
-                SLIPERY
+                L  E  A  L
               </span>
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed">
@@ -120,7 +120,7 @@ export function Footer() {
         {/* Bottom */}
         <div className="border-t border-border mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-muted-foreground tracking-widest uppercase">
-            2026 SLIPERY. Todos los derechos reservados.
+            2026 L  E  A  L. Todos los derechos reservados.
           </p>
           <div className="flex gap-6">
             <Link href="/" className="text-xs text-muted-foreground hover:text-gold transition-colors tracking-widest uppercase">
