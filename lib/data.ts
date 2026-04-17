@@ -412,7 +412,6 @@ export const products: Product[] = [
       "https://photo.yupoo.com/victoria-reps/b9079d6a/3e233999.jpg",
       "https://photo.yupoo.com/victoria-reps/be25827c/3be62a61.jpg",
       "https://photo.yupoo.com/victoria-reps/da075483/c5a03a5f.jpg",
-      "https://photo.yupoo.com/victoria-reps/e21e82ee/5182200c.jpg",
       "https://photo.yupoo.com/victoria-reps/faa778e7/17bc6a21.jpg"
     ],
     category: "conjuntos",
