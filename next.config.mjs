@@ -5,11 +5,7 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
-    domains: [
-      "s.alicdn.com",
-      "photo.yupoo.com", 
-    ],
   },
-};
+}
 
-export default nextConfig;
+export default nextConfig
