@@ -288,6 +288,7 @@ export const products: Product[] = [
       { size: "XL", available: false },
     ],
   },
+  
 
   // 🔥 EJEMPLO BOTTOMWEAR
   {
@@ -388,6 +389,31 @@ export const products: Product[] = [
     image: "https://s.alicdn.com/@sc04/kf/H461738ff8e8041e78496ff479d1fe463x.jpg",
     gallery: [
       "https://s.alicdn.com/@sc04/kf/H461738ff8e8041e78496ff479d1fe463x.jpg",
+    ],
+    category: "conjuntos",
+    description: "Conjunto personalizado de joggers a rayas para hombre; traje deportivo casual para jóvenes, estampado por sublimación; apto para primavera, otoño, verano e invierno.",
+    details: [
+      "Incluye hoodie + pantalón",
+      "Tela premium",
+    ],
+    material: "Algodón / Poliéster",
+    sizes: [
+      { size: "S", available: false },
+      { size: "M", available: true },
+      { size: "L", available: true },
+    ],
+  },
+  {
+    id: "conjunto-LaCoste",
+    name: "Conjunto LaCoste",
+    price: 0,
+    image: "https://photo.yupoo.com/victoria-reps/b9079d6a/3e233999.jpg",
+    gallery: [
+      "https://photo.yupoo.com/victoria-reps/b9079d6a/3e233999.jpg",
+      "https://photo.yupoo.com/victoria-reps/be25827c/3be62a61.jpg",
+      "https://photo.yupoo.com/victoria-reps/da075483/c5a03a5f.jpg",
+      "https://photo.yupoo.com/victoria-reps/e21e82ee/5182200c.jpg",
+      "https://photo.yupoo.com/victoria-reps/faa778e7/17bc6a21.jpg"
     ],
     category: "conjuntos",
     description: "Conjunto personalizado de joggers a rayas para hombre; traje deportivo casual para jóvenes, estampado por sublimación; apto para primavera, otoño, verano e invierno.",
